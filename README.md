@@ -1,8 +1,7 @@
 <!--
   ─────────────────────────────────────────────────────────────────────────────
   GEMINI WEB2API — flagship README
-  Before publishing: replace every OWNER/REPO placeholder in the badges below
-  with your GitHub username and repository name (search for "OWNER/REPO").
+  Repo badges and links target flawsom/Gemini-api (no placeholders remain).
   ─────────────────────────────────────────────────────────────────────────────
 -->
 
@@ -109,30 +108,30 @@
 > Streaming · Function calling · Multimodal · Self-healing (auto BL updates, proxy fallbacks, cookie auto-refresh)
 
 <!-- BADGES -->
-[![Version](https://img.shields.io/badge/version-1.1.0-6D28D9?style=for-the-badge&logo=googlegemini&logoColor=white)](https://github.com/OWNER/REPO/releases)
+[![Version](https://img.shields.io/badge/version-1.1.0-6D28D9?style=for-the-badge&logo=googlegemini&logoColor=white)](https://github.com/flawsom/Gemini-api/releases)
 [![Python](https://img.shields.io/badge/Python-3.10%2B-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org)
 [![License](https://img.shields.io/badge/License-MIT-22c55e?style=for-the-badge&logo=opensourceinitiative&logoColor=white)](LICENSE)
-[![Build](https://img.shields.io/github/actions/workflow/status/OWNER/REPO/ci.yml?style=for-the-badge&logo=githubactions&logoColor=white&label=CI)](https://github.com/OWNER/REPO/actions)
-[![Docker](https://img.shields.io/github/actions/workflow/status/OWNER/REPO/docker.yml?style=for-the-badge&logo=docker&logoColor=white&label=Docker)](https://github.com/OWNER/REPO/actions)
+[![Build](https://img.shields.io/github/actions/workflow/status/flawsom/Gemini-api/ci.yml?style=for-the-badge&logo=githubactions&logoColor=white&label=CI)](https://github.com/flawsom/Gemini-api/actions)
+[![Docker](https://img.shields.io/github/actions/workflow/status/flawsom/Gemini-api/docker.yml?style=for-the-badge&logo=docker&logoColor=white&label=Docker)](https://github.com/flawsom/Gemini-api/actions)
 
-[![Stars](https://img.shields.io/github/stars/OWNER/REPO?style=for-the-badge&logo=github&logoColor=white&color=f59e0b)](https://github.com/OWNER/REPO/stargazers)
-[![Forks](https://img.shields.io/github/forks/OWNER/REPO?style=for-the-badge&logo=github&logoColor=white&color=0ea5e9)](https://github.com/OWNER/REPO/forks)
-[![Issues](https://img.shields.io/github/issues/OWNER/REPO?style=for-the-badge&logo=github&logoColor=white&color=ef4444)](https://github.com/OWNER/REPO/issues)
-[![PRs](https://img.shields.io/github/issues-pr/OWNER/REPO?style=for-the-badge&logo=github&logoColor=white&color=8b5cf6)](https://github.com/OWNER/REPO/pulls)
-[![Last Commit](https://img.shields.io/github/last-commit/OWNER/REPO?style=for-the-badge&logo=github&logoColor=white&color=10b981)](https://github.com/OWNER/REPO/commits/main)
+[![Stars](https://img.shields.io/github/stars/flawsom/Gemini-api?style=for-the-badge&logo=github&logoColor=white&color=f59e0b)](https://github.com/flawsom/Gemini-api/stargazers)
+[![Forks](https://img.shields.io/github/forks/flawsom/Gemini-api?style=for-the-badge&logo=github&logoColor=white&color=0ea5e9)](https://github.com/flawsom/Gemini-api/forks)
+[![Issues](https://img.shields.io/github/issues/flawsom/Gemini-api?style=for-the-badge&logo=github&logoColor=white&color=ef4444)](https://github.com/flawsom/Gemini-api/issues)
+[![PRs](https://img.shields.io/github/issues-pr/flawsom/Gemini-api?style=for-the-badge&logo=github&logoColor=white&color=8b5cf6)](https://github.com/flawsom/Gemini-api/pulls)
+[![Last Commit](https://img.shields.io/github/last-commit/flawsom/Gemini-api?style=for-the-badge&logo=github&logoColor=white&color=10b981)](https://github.com/flawsom/Gemini-api/commits/main)
 
-[![Windows](https://img.shields.io/badge/Windows-0078D6?style=flat-square&logo=windows&logoColor=white)](https://github.com/OWNER/REPO)
-[![Linux](https://img.shields.io/badge/Linux-FCC624?style=flat-square&logo=linux&logoColor=black)](https://github.com/OWNER/REPO)
-[![macOS](https://img.shields.io/badge/macOS-000000?style=flat-square&logo=apple&logoColor=white)](https://github.com/OWNER/REPO)
-[![Docker](https://img.shields.io/badge/Docker-2496ED?style=flat-square&logo=docker&logoColor=white)](https://github.com/OWNER/REPO/pkgs)
+[![Windows](https://img.shields.io/badge/Windows-0078D6?style=flat-square&logo=windows&logoColor=white)](https://github.com/flawsom/Gemini-api)
+[![Linux](https://img.shields.io/badge/Linux-FCC624?style=flat-square&logo=linux&logoColor=black)](https://github.com/flawsom/Gemini-api)
+[![macOS](https://img.shields.io/badge/macOS-000000?style=flat-square&logo=apple&logoColor=white)](https://github.com/flawsom/Gemini-api)
+[![Docker](https://img.shields.io/badge/Docker-2496ED?style=flat-square&logo=docker&logoColor=white)](https://github.com/flawsom/Gemini-api/pkgs)
 [![Cloudflare Workers](https://img.shields.io/badge/Cloudflare_Workers-F38020?style=flat-square&logo=cloudflare&logoColor=white)](cloudflare/README.MD)
 [![Product Hunt](https://img.shields.io/badge/Product_Hunt-Launching_Soon-DA552F?style=flat-square&logo=producthunt&logoColor=white)](https://www.producthunt.com)
 
 <!-- CTA BUTTONS -->
-<a href="https://github.com/OWNER/REPO"><img src="https://img.shields.io/badge/🚀_Live_Demo-0ea5e9?style=for-the-badge&logo=googlechrome&logoColor=white" alt="Live Demo"></a>
+<a href="https://github.com/flawsom/Gemini-api"><img src="https://img.shields.io/badge/🚀_Live_Demo-0ea5e9?style=for-the-badge&logo=googlechrome&logoColor=white" alt="Live Demo"></a>
 <a href="#quick-start"><img src="https://img.shields.io/badge/📖_Documentation-6366f1?style=for-the-badge&logo=readthedocs&logoColor=white" alt="Documentation"></a>
 <a href="#quick-start"><img src="https://img.shields.io/badge/⚡_Installation-10b981?style=for-the-badge&logo=installer&logoColor=white" alt="Installation"></a>
-<a href="https://github.com/OWNER/REPO"><img src="https://img.shields.io/badge/☆_Star_on_GitHub-f59e0b?style=for-the-badge&logo=github&logoColor=white" alt="GitHub Repository"></a>
+<a href="https://github.com/flawsom/Gemini-api"><img src="https://img.shields.io/badge/☆_Star_on_GitHub-f59e0b?style=for-the-badge&logo=github&logoColor=white" alt="GitHub Repository"></a>
 
 [🦄 Product Hunt Launch Kit](PRODUCT_HUNT.md) · [🤖 AionUI / Agentic Platforms](AIONUI.md)
 
@@ -273,7 +272,7 @@ curl -N http://localhost:8081/v1/chat/completions \
 Once you have captured a screen recording, drop the file into `docs/` and reference it:
 
 ```markdown
-[![Demo](docs/demo.mp4)](https://github.com/OWNER/REPO/raw/main/docs/demo.mp4)
+[![Demo](docs/demo.mp4)](https://github.com/flawsom/Gemini-api/raw/main/docs/demo.mp4)
 ```
 
 or embed a YouTube video:
@@ -495,7 +494,7 @@ flowchart TD
 
 [![Docker](https://img.shields.io/badge/Docker-2496ED?style=flat-square&logo=docker&logoColor=white)](Dockerfile)
 [![docker-compose](https://img.shields.io/badge/docker--compose-2962FF?style=flat-square&logo=docker&logoColor=white)](docker-compose.local.yml)
-[![GHCR](https://img.shields.io/badge/GHCR_multi--arch-f9f9f9?style=flat-square&logo=github&logoColor=black)](https://github.com/OWNER/REPO/pkgs)
+[![GHCR](https://img.shields.io/badge/GHCR_multi--arch-f9f9f9?style=flat-square&logo=github&logoColor=black)](https://github.com/flawsom/Gemini-api/pkgs)
 [![GitHub Actions](https://img.shields.io/badge/GitHub_Actions-2088FF?style=flat-square&logo=githubactions&logoColor=white)](.github/workflows/docker.yml)
 [![Cloudflare Workers](https://img.shields.io/badge/Cloudflare_Workers-F38020?style=flat-square&logo=cloudflare&logoColor=white)](cloudflare/README.MD)
 
@@ -535,8 +534,8 @@ flowchart TD
 
 ```bash
 # 1. Clone
-git clone https://github.com/OWNER/REPO.git
-cd REPO
+git clone https://github.com/flawsom/Gemini-api.git
+cd Gemini-api
 
 # 2. (Optional) streaming support
 pip install httpx
@@ -576,7 +575,7 @@ docker compose -f docker-compose.local.yml up -d --build
 docker run -d --name gemini-web2api \
   -p 8081:8081 \
   -v "$(pwd)/config.json:/app/config.json" \
-  ghcr.io/OWNER/REPO:latest
+  ghcr.io/flawsom/Gemini-api:latest
 ```
 
 The container copies `config.example.json` → `/app/config.json` automatically, so it boots out of the box.
@@ -905,7 +904,7 @@ node --check gemini-cookie-sync-extension/popup.js
 
 ```bash
 docker compose -f docker-compose.local.yml up -d --build
-# or pull prebuilt: ghcr.io/OWNER/REPO:latest (amd64 + arm64)
+# or pull prebuilt: ghcr.io/flawsom/Gemini-api:latest (amd64 + arm64)
 ```
 
 ### ☁️ Cloudflare Workers (zero server)
@@ -1131,12 +1130,12 @@ SOFTWARE.
 
 <div align="center">
 
-<a href="https://github.com/OWNER/REPO/stargazers"><img src="https://img.shields.io/badge/☆_Star_this_repo-f59e0b?style=for-the-badge&logo=github&logoColor=white" alt="Star this repo"></a>
+<a href="https://github.com/flawsom/Gemini-api/stargazers"><img src="https://img.shields.io/badge/☆_Star_this_repo-f59e0b?style=for-the-badge&logo=github&logoColor=white" alt="Star this repo"></a>
 <a href="https://github.com/sponsors/OWNER"><img src="https://img.shields.io/badge/❤️_Sponsor-6366f1?style=for-the-badge&logo=githubsponsors&logoColor=white" alt="Sponsor"></a>
 <a href="https://www.buymeacoffee.com/OWNER"><img src="https://img.shields.io/badge/Buy_me_a_coffee-FFDD00?style=for-the-badge&logo=buymeacoffee&logoColor=black" alt="Buy me a coffee"></a>
 <a href="mailto:you@example.com"><img src="https://img.shields.io/badge/✉_Contact-0ea5e9?style=for-the-badge&logo=gmail&logoColor=white" alt="Contact"></a>
 
-**Report issues** → [GitHub Issues](https://github.com/OWNER/REPO/issues) · **Discuss** → [GitHub Discussions](https://github.com/OWNER/REPO/discussions)
+**Report issues** → [GitHub Issues](https://github.com/flawsom/Gemini-api/issues) · **Discuss** → [GitHub Discussions](https://github.com/flawsom/Gemini-api/discussions)
 
 </div>
 

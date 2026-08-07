@@ -49,9 +49,9 @@ Not every contribution is a pull request. Here's how to help at any skill level:
 
 ```bash
 # Replace OWNER with your GitHub username
-git clone https://github.com/OWNER/REPO.git
-cd REPO
-git remote add upstream https://github.com/OWNER/REPO.git
+git clone https://github.com/flawsom/Gemini-api.git
+cd Gemini-api
+git remote add upstream https://github.com/flawsom/Gemini-api.git
 git checkout -b feat/your-change
 ```
 
@@ -247,7 +247,7 @@ Report security vulnerabilities privately (see [Security policy](SECURITY.md) if
 
 ## Questions?
 
-Open a [Discussion](https://github.com/OWNER/REPO/discussions) for questions, or ask in the issue that's relevant to you. No question is too basic — if you're wondering, someone else is too.
+Open a [Discussion](https://github.com/flawsom/Gemini-api/discussions) for questions, or ask in the issue that's relevant to you. No question is too basic — if you're wondering, someone else is too.
 
 ---
 

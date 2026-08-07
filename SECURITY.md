@@ -12,7 +12,7 @@ This project works with **live Gemini session cookies** (`cookie.txt`). Treat th
 
 Do **not** open a public issue for security problems. Report privately via GitHub's **Security Advisories**:
 
-**[Report a vulnerability](https://github.com/OWNER/REPO/security/advisories/new)**
+**[Report a vulnerability](https://github.com/flawsom/Gemini-api/security/advisories/new)**
 
 Please include:
 
