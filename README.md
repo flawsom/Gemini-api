@@ -47,7 +47,7 @@
 [🤖 AionUI / Agentic Platforms](AIONUI.md)
 
 <!-- STAT STRIP -->
-<img src="docs/stats.svg" width="760" alt="Gemini Web2API by the numbers — 8 models, 15 endpoints, 491 tests, 5 deploy targets">
+<img src="docs/stats.svg" width="760" alt="Gemini Web2API by the numbers — 8 models, 15 endpoints, 515 tests, 5 deploy targets">
 
 </div>
 
@@ -161,25 +161,9 @@ curl -N http://localhost:8081/v1/chat/completions \
 
 </div>
 
-> 🎬 The GIF above is a **real capture** of the server: boot banner, a streaming `curl -N` request, the SSE token-by-token response, and the completed answer.
-> Recorded at 2× scale for crisp text. Drop your own screen recording into `docs/` to replace it anytime.
+> 🎬 The GIF above is a **real capture**, not a mockup: the server's actual boot banner (real timestamps, real build label), a streaming `curl -N` request, the real SSE token-by-token response (real request id, real inter-frame timing), and the completed answer — the status-bar stats are computed from that same session.
+> Regenerate it anytime with `python docs/make_demo.py` — it boots the server, fires a real request, and renders the GIF from the captured frames (an offline fallback reuses the last real capture). Drop your own screen recording into `docs/` to swap it.
 
-<details>
-<summary><b>📹 Want to swap in your own demo video?</b></summary>
-
-Drop the file into `docs/` and reference it:
-
-```markdown
-[![Demo](docs/demo.mp4)](https://github.com/flawsom/Gemini-api/raw/main/docs/demo.mp4)
-```
-
-or embed a YouTube video:
-
-```markdown
-[![Gemini Web2API demo](https://img.youtube.com/vi/XXXXXXXXXXX/0.jpg)](https://www.youtube.com/watch?v=XXXXXXXXXXX)
-```
-
-</details>
 
 [⬆ Back to top](#readme-top)
 
@@ -404,6 +388,7 @@ flowchart TD
 [![extension](https://img.shields.io/badge/extension-83_tests-fbbf24?style=flat-square&logo=jest&logoColor=white)](test_extension.js)
 [![popup](https://img.shields.io/badge/popup-59_tests-38bdf8?style=flat-square&logo=jest&logoColor=white)](test_popup.js)
 [![integration](https://img.shields.io/badge/integration-37_tests-34d399?style=flat-square&logo=pytest&logoColor=white)](test_integration.py)
+[![refresh button](https://img.shields.io/badge/refresh_button-24_tests-06b6d4?style=flat-square&logo=pytest&logoColor=white)](test_refresh_button.py)
 [![SSE](https://img.shields.io/badge/sse_protocol-20_tests-10b981?style=flat-square&logo=pytest&logoColor=white)](test_sse.py)
 
 ### 🛠 Ops tooling
@@ -778,6 +763,7 @@ python test_multimodal_proxy.py # multimodal proxy-plan iteration — 5 tests
 python test_payload_format.py   # payload/header serialization — 6 tests
 python test_sse.py              # SSE protocol edge cases — 20 tests
 python test_cookie_refresh.py   # cookie-refresh endpoints & CLI — 10 tests
+python test_refresh_button.py   # Refresh-now lifecycle (flag -> health -> upload -> rewrite) — 24 tests
 python test_watchdog.py         # watchdog health analysis + nudges — 84 tests
 python test_run_all.py          # orchestrator auto-start logic — 8 tests
 python test_image_bridge.py     # image bridge contract + ext version + watchdog expire — 41 tests

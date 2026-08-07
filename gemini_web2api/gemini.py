@@ -383,8 +383,91 @@ def _advance_bl() -> bool:
 _xsrf_state = {"token": None, "ts": 0}
 
 
+def _extract_xsrf_hint(raw: str) -> str | None:
+    """Pull the expected `at` token from StreamGenerate's 400 error payload.
+
+    An `at`-less request is rejected with HTTP 400 whose body carries the
+    token the request SHOULD have sent, as the "xsrf" entry of the first
+    error record:
+
+        ["er",null,null,null,null,400,null,null,null,3,
+         [{"48448350":["xsrf","<token>:<issued-ms>",[<account>]]}]]
+
+    Returns the FULL value (the ":timestamp" suffix is mandatory - Google
+    rejects the bare token), or None when the payload has no hint.
+    """
+    if not raw:
+        return None
+    m = re.search(r'"xsrf","([^"]+)"', raw)
+    return m.group(1) if m else None
+
+
+def _xsrf_from_error_hint() -> str | None:
+    """Recover the session's expected `at` token from an `at`-less probe.
+
+    StreamGenerate rejects a request without `at` with HTTP 400 whose error
+    payload NAMES the token to use (see _extract_xsrf_hint). Sending that
+    value as `at` streams normally - verified live - whereas the page's raw
+    thykhd value is currently rejected with a plain 400. This is what the
+    browser app's WIZ_global_data.SNlM0e contains at runtime; the static HTML
+    does not expose it.
+
+    Only probed when a real SAPISID session is present (the probe is an
+    authenticated request - without one there is nothing to recover and the
+    call would be pointless/slow, e.g. in offline unit tests).
+    """
+    _, sapisid = load_cookie()
+    if not sapisid:
+        return None
+    from .models import MODELS as _MODELS
+    default = CONFIG.get("default_model", "gemini-3.6-flash")
+    cfg = _MODELS.get(default) or _MODELS["gemini-3.6-flash"]
+    # include_at=False: build the payload without touching CONFIG['xsrf_token']
+    # or calling ensure_xsrf_token again (no recursion into this probe).
+    body = _build_payload("ping", cfg["mode"], 0, include_at=False).encode()
+    url = _get_url()
+    headers = _build_headers()
+    ctx = _get_ssl_ctx()
+    for proxy in _proxy_plan() or [None]:
+        try:
+            req = urllib.request.Request(url, data=body, headers=headers, method="POST")
+            if proxy:
+                opener = urllib.request.build_opener(
+                    urllib.request.ProxyHandler({"http": proxy, "https": proxy}),
+                    urllib.request.HTTPSHandler(context=ctx))
+                resp = opener.open(req, timeout=12)
+            else:
+                resp = urllib.request.urlopen(req, context=ctx, timeout=12)
+            resp.read()  # accepted without `at` - nothing to recover
+            return None
+        except urllib.error.HTTPError as e:
+            if e.code == 400:
+                try:
+                    raw = e.read().decode("utf-8", errors="replace")
+                except Exception:
+                    raw = ""
+                tok = _extract_xsrf_hint(raw)
+                if tok:
+                    return tok
+            return None  # 429/405/other - ambiguous, do not block on it
+        except Exception:
+            continue
+    return None
+
+
 def fetch_xsrf_token() -> str | None:
-    """Fetch the page XSRF token (sent as the `at` form field)."""
+    """Fetch a WORKING `at` token for this session.
+
+    Order:
+      1. Recover the session's expected token from an `at`-less StreamGenerate
+         probe (the 400 error body names the token). Verified working; the
+         page's thykhd value is currently rejected by Google with a plain 400.
+      2. Fall back to the classic page scrape (thykhd / SNlM0e) - kept in
+         case Google reverts or the probe is unavailable (no session).
+    """
+    tok = _xsrf_from_error_hint()
+    if tok:
+        return tok
     try:
         html = _fetch_page_html()
         for pat in (r'"thykhd":"([^"]+)"', r'"SNlM0e":"([^"]+)"'):
@@ -397,11 +480,11 @@ def fetch_xsrf_token() -> str | None:
 
 
 def ensure_xsrf_token():
-    """Auto-populate CONFIG['xsrf_token'] from the page if not configured.
+    """Auto-populate CONFIG['xsrf_token'] if not configured.
 
-    Authenticated (cookie) requests to StreamGenerate are often rejected
-    (HTTP 400/405) without the `at` token, so we fetch it lazily and cache
-    it for 10 minutes.
+    Authenticated (cookie) requests to StreamGenerate are rejected (HTTP
+    400/405) without the `at` token, so we recover it lazily and cache it for
+    10 minutes.
     """
     if CONFIG.get("xsrf_token"):
         return
@@ -410,7 +493,7 @@ def ensure_xsrf_token():
         _xsrf_state["token"] = fetch_xsrf_token()
         _xsrf_state["ts"] = now
     if _xsrf_state["token"] and not CONFIG.get("xsrf_token"):
-        log("XSRF token auto-fetched from page")
+        log("XSRF token auto-fetched (session probe)")
         CONFIG["xsrf_token"] = _xsrf_state["token"]
 
 
@@ -450,7 +533,7 @@ def apply_chat_persistence_flags(inner: list) -> None:
         inner[41] = [2]
 
 
-def _build_payload(prompt: str, model_id: int, think_mode: int, file_refs: list = None, extra_fields: dict = None) -> str:
+def _build_payload(prompt: str, model_id: int, think_mode: int, file_refs: list = None, extra_fields: dict = None, include_at: bool = True) -> str:
     inner = [None] * 102
     if file_refs:
         # Ground-truth format captured from the live web UI (Aug 2026): the
@@ -485,14 +568,17 @@ def _build_payload(prompt: str, model_id: int, think_mode: int, file_refs: list 
     if extra_fields:
         for k, v in extra_fields.items():
             inner[k] = v
-    ensure_xsrf_token()
+    if include_at:
+        ensure_xsrf_token()
     outer = [None, json.dumps(inner)]
     params = {"f.req": json.dumps(outer)}
     # The `at` XSRF token must NOT be sent on image requests: ground-truth
     # capture (live UI, Aug 2026) shows the real frontend sends no `at` for
     # uploaded images, and sending it makes Google reject the request with
-    # BardErrorInfo 1100 even though text requests tolerate it.
-    if CONFIG.get("xsrf_token") and not file_refs:
+    # BardErrorInfo 1100 even though text requests tolerate it. include_at=False
+    # is used by the XSRF hint probe (an `at`-less request is what makes
+    # StreamGenerate reveal the expected token in its 400 error body).
+    if include_at and CONFIG.get("xsrf_token") and not file_refs:
         params["at"] = CONFIG["xsrf_token"]
     return urllib.parse.urlencode(params)
 

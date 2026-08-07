@@ -1,0 +1,107 @@
+{
+ "captured_at": "2026-08-08T00:22:37",
+ "port": 2634,
+ "model": "gemini-3.6-flash",
+ "prompt": "Why is the sky blue?",
+ "boot": [
+  "[00:21:58] XSRF token auto-fetched (session probe)",
+  "[00:22:01] BL: boq_assistant-bard-web-server_20260806.17_p0 | XSRF: configured | Auto-BL: on",
+  "gemini-web2api v1.1.0",
+  "  Listening: http://0.0.0.0:8081",
+  "  Base URL:  http://localhost:8081/v1",
+  "  Models:    gemini-3.6-flash, gemini-3.5-flash, gemini-3.5-flash-thinking, gemini-3.1-pro, gemini-3.1-pro-enhanced, gemini-auto, gemini-3.5-flash-thinking-lite, gemini-flash-lite",
+  "  Cookie:    yes (cookie.txt)",
+  "  Proxy:     none (uses system env HTTP_PROXY/HTTPS_PROXY)",
+  "  Fallbacks: http://127.0.0.1:7890",
+  "  Retry:     3x / 2s",
+  "  BL:        boq_assistant-bard-web-server_20260806.17_p0",
+  "  Temporary: no",
+  ""
+ ],
+ "request_log": [
+  "[00:22:01] 127.0.0.1 \"POST /v1/chat/completions HTTP/1.1\" 200 -",
+  "[00:22:08] 127.0.0.1 \"POST /v1/chat/completions HTTP/1.1\" 200 -",
+  "[00:22:14] 127.0.0.1 \"POST /v1/chat/completions HTTP/1.1\" 200 -",
+  "[00:22:21] 127.0.0.1 \"POST /v1/chat/completions HTTP/1.1\" 200 -",
+  "[00:22:27] 127.0.0.1 \"POST /v1/chat/completions HTTP/1.1\" 200 -"
+ ],
+ "curl": [
+  "curl -N http://localhost:8081/v1/chat/completions \\",
+  "  -H \"Authorization: Bearer sk-gemini\" \\",
+  "  -H \"Content-Type: application/json\" \\",
+  "  -d '{\"model\":\"gemini-3.6-flash\",\"stream\":true,\"messages\":[{\"role\":\"user\",\"content\":\"Why is the sky blue?\"}]}'"
+ ],
+ "sse": [
+  {
+   "t": 0.0,
+   "line": "data: {\"id\": \"chatcmpl-498d82457199\", \"object\": \"chat.completion.chunk\", \"created\": 1786128754, \"model\": \"gemini-3.6-flash\", \"choices\": [{\"index\": 0, \"delta\": {\"content\": \"The sky appears blue\"}, \"finish_reason\": null}]}"
+  },
+  {
+   "t": 0.001,
+   "line": "data: {\"id\": \"chatcmpl-498d82457199\", \"object\": \"chat.completion.chunk\", \"created\": 1786128754, \"model\": \"gemini-3.6-flash\", \"choices\": [{\"index\": 0, \"delta\": {\"content\": \" due to a phenomenon called **Rayleigh scattering**, which involves how sunlight interacts with the gases in Earth's atmosphere.\"}, \"finish_reason\": null}]}"
+  },
+  {
+   "t": 0.065,
+   "line": "data: {\"id\": \"chatcmpl-498d82457199\", \"object\": \"chat.completion.chunk\", \"created\": 1786128755, \"model\": \"gemini-3.6-flash\", \"choices\": [{\"index\": 0, \"delta\": {\"content\": \"\\n\\n\"}, \"finish_reason\": null}]}"
+  },
+  {
+   "t": 0.305,
+   "line": "data: {\"id\": \"chatcmpl-498d82457199\", \"object\": \"chat.completion.chunk\", \"created\": 1786128755, \"model\": \"gemini-3.6-flash\", \"choices\": [{\"index\": 0, \"delta\": {\"content\": \"<Image alt=\\\"Diagram illustrating Rayleigh scattering of sunlight in the atmosphere\\\" caption=\\\"Rayleigh scattering in Earth's atmosphere\\\" src=\\\"image_agent_tag_3200350349688127987\\\"/>\\n\\n---\\n\\n## How It Works\\n\\n### 1. Sunlight is Made of All Colors\\nAlthough\"}, \"finish_reason\": null}]}"
+  },
+  {
+   "t": 0.463,
+   "line": "data: {\"id\": \"chatcmpl-498d82457199\", \"object\": \"chat.completion.chunk\", \"created\": 1786128755, \"model\": \"gemini-3.6-flash\", \"choices\": [{\"index\": 0, \"delta\": {\"content\": \" light from the Sun looks white, it is actually a blend of all the colors of the rainbow. Light travels in waves\"}, \"finish_reason\": null}]}"
+  },
+  {
+   "t": 0.582,
+   "line": "data: {\"id\": \"chatcmpl-498d82457199\", \"object\": \"chat.completion.chunk\", \"created\": 1786128755, \"model\": \"gemini-3.6-flash\", \"choices\": [{\"index\": 0, \"delta\": {\"content\": \", and each color has a different wavelength:\\n* **Longer wavelengths:** Red, orange, and yellow waves pass\"}, \"finish_reason\": null}]}"
+  },
+  {
+   "t": 0.683,
+   "line": "data: {\"id\": \"chatcmpl-498d82457199\", \"object\": \"chat.completion.chunk\", \"created\": 1786128755, \"model\": \"gemini-3.6-flash\", \"choices\": [{\"index\": 0, \"delta\": {\"content\": \" straight through the atmosphere with minimal disruption.\\n* **Shorter wavelengths:** Blue and violet waves bounce off gas molecules much\"}, \"finish_reason\": null}]}"
+  },
+  {
+   "t": 0.8,
+   "line": "data: {\"id\": \"chatcmpl-498d82457199\", \"object\": \"chat.completion.chunk\", \"created\": 1786128755, \"model\": \"gemini-3.6-flash\", \"choices\": [{\"index\": 0, \"delta\": {\"content\": \" more easily.\\n\\n### 2. Atmospheric Scattering\\nEarth’s atmosphere is packed with tiny gas molecules (mostly nitrogen and oxygen). When light\"}, \"finish_reason\": null}]}"
+  },
+  {
+   "t": 1.16,
+   "line": "data: {\"id\": \"chatcmpl-498d82457199\", \"object\": \"chat.completion.chunk\", \"created\": 1786128756, \"model\": \"gemini-3.6-flash\", \"choices\": [{\"index\": 0, \"delta\": {\"content\": \" hits these particles, the light with smaller wavelengths scatters in every direction. \\n\\nScientifically, the scattering intensity $I$ is inversely proportional to the fourth power of the wavelength $\\\\lambda$:\\n\\n$$I \\\\propto \\\\frac{1}{\\\\lambda^4}$$\\n\\nBecause blue light has a wavelength nearly half as long as red light, it scatters roughly **16\"}, \"finish_reason\": null}]}"
+  },
+  {
+   "t": 1.317,
+   "line": "data: {\"id\": \"chatcmpl-498d82457199\", \"object\": \"chat.completion.chunk\", \"created\": 1786128756, \"model\": \"gemini-3.6-flash\", \"choices\": [{\"index\": 0, \"delta\": {\"content\": \" times more** through the sky.\\n\\n---\\n\\n## Why Blue and Not Violet?\\n\\nSince violet light has an even shorter wavelength than\"}, \"finish_reason\": null}]}"
+  },
+  {
+   "t": 1.45,
+   "line": "data: {\"id\": \"chatcmpl-498d82457199\", \"object\": \"chat.completion.chunk\", \"created\": 1786128756, \"model\": \"gemini-3.6-flash\", \"choices\": [{\"index\": 0, \"delta\": {\"content\": \" blue light, it actually scatters slightly *more*. However, the sky appears blue to us for two main reasons:\\n\\n1\"}, \"finish_reason\": null}]}"
+  },
+  {
+   "t": 1.547,
+   "line": "data: {\"id\": \"chatcmpl-498d82457199\", \"object\": \"chat.completion.chunk\", \"created\": 1786128756, \"model\": \"gemini-3.6-flash\", \"choices\": [{\"index\": 0, \"delta\": {\"content\": \". **Sunlight Output:** The Sun emits significantly more blue light than violet light.\\n2. **Human Vision:**\"}, \"finish_reason\": null}]}"
+  },
+  {
+   "t": 1.678,
+   "line": "data: {\"id\": \"chatcmpl-498d82457199\", \"object\": \"chat.completion.chunk\", \"created\": 1786128756, \"model\": \"gemini-3.6-flash\", \"choices\": [{\"index\": 0, \"delta\": {\"content\": \" The human eye uses three types of color cones (red, green, and blue). Our vision receptors are far more sensitive to blue light wavelengths\"}, \"finish_reason\": null}]}"
+  },
+  {
+   "t": 1.715,
+   "line": "data: {\"id\": \"chatcmpl-498d82457199\", \"object\": \"chat.completion.chunk\", \"created\": 1786128756, \"model\": \"gemini-3.6-flash\", \"choices\": [{\"index\": 0, \"delta\": {\"content\": \" than violet ones.\"}, \"finish_reason\": null}]}"
+  },
+  {
+   "t": 2.45,
+   "line": "data: {\"id\": \"chatcmpl-498d82457199\", \"object\": \"chat.completion.chunk\", \"created\": 1786128757, \"model\": \"gemini-3.6-flash\", \"choices\": [{\"index\": 0, \"delta\": {}, \"finish_reason\": \"stop\"}]}"
+  },
+  {
+   "t": 2.45,
+   "line": "data: [DONE]"
+  }
+ ],
+ "meta": {
+  "answer": "The sky appears blue due to a phenomenon called **Rayleigh scattering**, which involves how sunlight interacts with the gases in Earth's atmosphere.\n\n<Image alt=\"Diagram illustrating Rayleigh scattering of sunlight in the atmosphere\" caption=\"Rayleigh scattering in Earth's atmosphere\" src=\"image_agent_tag_3200350349688127987\"/>\n\n---\n\n## How It Works\n\n### 1. Sunlight is Made of All Colors\nAlthough light from the Sun looks white, it is actually a blend of all the colors of the rainbow. Light travels in waves, and each color has a different wavelength:\n* **Longer wavelengths:** Red, orange, and yellow waves pass straight through the atmosphere with minimal disruption.\n* **Shorter wavelengths:** Blue and violet waves bounce off gas molecules much more easily.\n\n### 2. Atmospheric Scattering\nEarth’s atmosphere is packed with tiny gas molecules (mostly nitrogen and oxygen). When light hits these particles, the light with smaller wavelengths scatters in every direction. \n\nScientifically, the scattering intensity $I$ is inversely proportional to the fourth power of the wavelength $\\lambda$:\n\n$$I \\propto \\frac{1}{\\lambda^4}$$\n\nBecause blue light has a wavelength nearly half as long as red light, it scatters roughly **16 times more** through the sky.\n\n---\n\n## Why Blue and Not Violet?\n\nSince violet light has an even shorter wavelength than blue light, it actually scatters slightly *more*. However, the sky appears blue to us for two main reasons:\n\n1. **Sunlight Output:** The Sun emits significantly more blue light than violet light.\n2. **Human Vision:** The human eye uses three types of color cones (red, green, and blue). Our vision receptors are far more sensitive to blue light wavelengths than violet ones.",
+  "tokens": 431,
+  "duration_s": 2.45,
+  "frames": 16,
+  "tok_per_s": 175.9
+ }
+}

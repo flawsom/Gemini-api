@@ -43,6 +43,7 @@ SUITES = [
     ("image bridge", [PY, "test_image_bridge.py"]),
     ("image bridge cdp", [PY, "test_image_bridge_cdp.py"]),
     ("cookie refresh", [PY, "test_cookie_refresh.py"] + (["--offline"] if OFFLINE else [])),
+    ("refresh button", [PY, "test_refresh_button.py"]),
     ("watchdog", [PY, "test_watchdog.py"]),
     ("orchestrator", [PY, "test_run_all.py"]),
     ("autostart", [PY, "test_autostart.py"]),
