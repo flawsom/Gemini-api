@@ -44,7 +44,7 @@
 <a href="#quick-start"><img src="https://img.shields.io/badge/⚡_Installation-10b981?style=for-the-badge&logo=installer&logoColor=white" alt="Installation"></a>
 <a href="https://github.com/flawsom/Gemini-api"><img src="https://img.shields.io/badge/☆_Star_on_GitHub-f59e0b?style=for-the-badge&logo=github&logoColor=white" alt="GitHub Repository"></a>
 
-[🦄 Product Hunt Launch Kit](PRODUCT_HUNT.md) · [🤖 AionUI / Agentic Platforms](AIONUI.md)
+[🤖 AionUI / Agentic Platforms](AIONUI.md)
 
 <!-- STAT STRIP -->
 <img src="docs/stats.svg" width="760" alt="Gemini Web2API by the numbers — 8 models, 15 endpoints, 491 tests, 5 deploy targets">

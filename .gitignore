@@ -20,3 +20,6 @@ server-*-error.log
 watchdog-*-state.json
 image-bridge-state.json
 image-bridge-state-*.json
+
+# Private launch kit - not part of the public repo
+PRODUCT_HUNT.md
