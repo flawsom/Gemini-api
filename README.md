@@ -10,96 +10,7 @@
 <div align="center">
 
 <!-- ═══════════════════════════ HERO BANNER ═══════════════════════════ -->
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 300" width="100%" style="max-width:760px" role="img" aria-label="Gemini Web2API — turn Google Gemini's web interface into a free OpenAI-compatible API">
-  <defs>
-    <linearGradient id="hb-bg" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#05060f"/>
-      <stop offset="0.5" stop-color="#0b1230"/>
-      <stop offset="1" stop-color="#160f2e"/>
-    </linearGradient>
-    <linearGradient id="hb-brand" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#4f8cff"/>
-      <stop offset="0.55" stop-color="#7c5cff"/>
-      <stop offset="1" stop-color="#c084fc"/>
-    </linearGradient>
-    <linearGradient id="hb-title" x1="0" y1="0" x2="1" y2="0">
-      <stop offset="0" stop-color="#f8fafc"/>
-      <stop offset="0.6" stop-color="#dbeafe"/>
-      <stop offset="1" stop-color="#c7d2fe"/>
-    </linearGradient>
-    <radialGradient id="hb-glow1" cx="0.5" cy="0.5" r="0.5">
-      <stop offset="0" stop-color="#4f8cff" stop-opacity="0.4"/>
-      <stop offset="1" stop-color="#4f8cff" stop-opacity="0"/>
-    </radialGradient>
-    <radialGradient id="hb-glow2" cx="0.5" cy="0.5" r="0.5">
-      <stop offset="0" stop-color="#a78bfa" stop-opacity="0.35"/>
-      <stop offset="1" stop-color="#a78bfa" stop-opacity="0"/>
-    </radialGradient>
-    <pattern id="hb-grid" width="28" height="28" patternUnits="userSpaceOnUse">
-      <path d="M 28 0 L 0 0 0 28" fill="none" stroke="#8ea2ff" stroke-opacity="0.06" stroke-width="1"/>
-    </pattern>
-  </defs>
-
-  <rect width="760" height="300" rx="28" fill="url(#hb-bg)"/>
-  <rect width="760" height="300" rx="28" fill="url(#hb-grid)"/>
-
-  <!-- star field -->
-  <g fill="#e2e8f0">
-    <circle cx="60" cy="26" r="1.2" opacity="0.5"/><circle cx="140" cy="14" r="1" opacity="0.3"/>
-    <circle cx="240" cy="30" r="1.4" opacity="0.6"/><circle cx="330" cy="18" r="1" opacity="0.35"/>
-    <circle cx="430" cy="28" r="1.2" opacity="0.45"/><circle cx="520" cy="12" r="1.5" opacity="0.55"/>
-    <circle cx="620" cy="26" r="1" opacity="0.3"/><circle cx="700" cy="16" r="1.3" opacity="0.5"/>
-    <circle cx="84" cy="270" r="1.1" opacity="0.4"/><circle cx="200" cy="284" r="1.3" opacity="0.5"/>
-    <circle cx="360" cy="276" r="1" opacity="0.3"/><circle cx="520" cy="286" r="1.2" opacity="0.45"/>
-    <circle cx="660" cy="272" r="1.4" opacity="0.55"/><circle cx="720" cy="282" r="1" opacity="0.35"/>
-  </g>
-
-  <!-- ambient glows -->
-  <circle cx="688" cy="30" r="150" fill="url(#hb-glow1)"/>
-  <circle cx="70" cy="280" r="160" fill="url(#hb-glow2)"/>
-  <circle cx="620" cy="270" r="120" fill="url(#hb-glow1)"/>
-
-  <!-- logo: glass tile + gradient sparkle + orbit -->
-  <circle cx="82" cy="128" r="56" fill="none" stroke="#6366f1" stroke-opacity="0.35" stroke-width="1.2" stroke-dasharray="5 7"/>
-  <circle cx="82" cy="72" r="3" fill="#a78bfa"/>
-  <circle cx="126" cy="100" r="2.2" fill="#4f8cff"/>
-  <rect x="40" y="86" width="84" height="84" rx="24" fill="#ffffff" opacity="0.05"/>
-  <rect x="40" y="86" width="84" height="84" rx="24" fill="none" stroke="#ffffff" stroke-opacity="0.14" stroke-width="1"/>
-  <rect x="47" y="93" width="70" height="70" rx="20" fill="url(#hb-brand)"/>
-  <path d="M82 107c2.4 8.8 7 13.4 15.8 15.8-8.8 2.4-13.4 7-15.8 15.8-2.4-8.8-7-13.4-15.8-15.8 8.8-2.4 13.4-7 15.8-15.8z" fill="#ffffff"/>
-  <path d="M112 120c1.2 4.2 3.5 6.5 7.8 7.8-4.3 1.2-6.6 3.5-7.8 7.8-1.2-4.3-3.5-6.5-7.8-7.8 4.3-1.3 6.6-3.6 7.8-7.8z" fill="#ffffff" opacity="0.65"/>
-
-  <!-- version pill -->
-  <rect x="156" y="40" width="214" height="26" rx="13" fill="#1e1b4b" stroke="#6366f1" stroke-opacity="0.6"/>
-  <text x="263" y="58" font-family="ui-sans-serif, system-ui, sans-serif" font-size="12.5" font-weight="700" fill="#dbeafe" text-anchor="middle">v1.1.0 · MIT · FREE · SELF-HEALING</text>
-
-  <!-- title + tagline -->
-  <text x="156" y="98" font-family="ui-sans-serif, system-ui, sans-serif" font-size="40" font-weight="800" fill="url(#hb-title)" letter-spacing="-1">Gemini Web2API</text>
-  <text x="156" y="126" font-family="ui-sans-serif, system-ui, sans-serif" font-size="15" fill="#a5b4d0">Turn Google Gemini&#8217;s web interface into a free, drop-in</text>
-  <text x="156" y="148" font-family="ui-sans-serif, system-ui, sans-serif" font-size="15" fill="#a5b4d0">OpenAI-compatible API — <tspan fill="#c7d2fe" font-weight="700">no API key, no credit card, no servers.</tspan></text>
-
-  <!-- feature chips -->
-  <g font-family="ui-sans-serif, system-ui, sans-serif" font-size="11.5" font-weight="600">
-    <rect x="156" y="176" width="112" height="24" rx="12" fill="#111a38" stroke="#334a7a" stroke-opacity="0.5"/>
-    <circle cx="169" cy="188" r="4" fill="#34d399"/>
-    <text x="180" y="192" fill="#dbeafe">Zero cost</text>
-    <rect x="278" y="176" width="126" height="24" rx="12" fill="#111a38" stroke="#334a7a" stroke-opacity="0.5"/>
-    <circle cx="291" cy="188" r="4" fill="#38bdf8"/>
-    <text x="302" y="192" fill="#dbeafe">SSE streaming</text>
-    <rect x="414" y="176" width="122" height="24" rx="12" fill="#111a38" stroke="#334a7a" stroke-opacity="0.5"/>
-    <circle cx="427" cy="188" r="4" fill="#a78bfa"/>
-    <text x="438" y="192" fill="#dbeafe">Tool calling</text>
-    <rect x="546" y="176" width="122" height="24" rx="12" fill="#111a38" stroke="#334a7a" stroke-opacity="0.5"/>
-    <circle cx="559" cy="188" r="4" fill="#fbbf24"/>
-    <text x="570" y="192" fill="#dbeafe">Self-healing</text>
-  </g>
-
-  <!-- glass bottom bar -->
-  <rect x="20" y="236" width="720" height="2" rx="1" fill="url(#hb-brand)" opacity="0.35"/>
-  <rect x="20" y="244" width="720" height="36" rx="18" fill="#ffffff" opacity="0.035"/>
-  <rect x="20" y="244" width="720" height="36" rx="18" fill="none" stroke="#ffffff" stroke-opacity="0.08"/>
-  <text x="380" y="266" font-family="ui-sans-serif, system-ui, sans-serif" font-size="12" fill="#8fa3c8" text-anchor="middle">Streaming · Function calling · Multimodal · Auto cookie refresh · Proxy fallbacks · Watchdog</text>
-</svg>
+<img src="docs/hero.svg" width="760" alt="Gemini Web2API — turn Google Gemini's web interface into a free OpenAI-compatible API">
 
 <!-- TAGLINE -->
 **The free bridge between Gemini's web interface and the OpenAI ecosystem.**
@@ -136,35 +47,11 @@
 [🦄 Product Hunt Launch Kit](PRODUCT_HUNT.md) · [🤖 AionUI / Agentic Platforms](AIONUI.md)
 
 <!-- STAT STRIP -->
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 104" width="100%" style="max-width:760px" role="img" aria-label="Gemini Web2API by the numbers — 8 models, 15 endpoints, 491 tests, 5 deploy targets">
-  <defs>
-    <linearGradient id="st-num" x1="0" y1="0" x2="1" y2="0">
-      <stop offset="0" stop-color="#4f8cff"/>
-      <stop offset="1" stop-color="#c084fc"/>
-    </linearGradient>
-  </defs>
-  <g font-family="ui-sans-serif, system-ui, sans-serif">
-    <rect x="20" y="10" width="165" height="84" rx="16" fill="#ffffff" fill-opacity="0.04" stroke="#ffffff" stroke-opacity="0.09"/>
-    <text x="102" y="52" font-size="26" font-weight="800" fill="url(#st-num)" text-anchor="middle">8</text>
-    <text x="102" y="76" font-size="11.5" fill="#8fa3c8" text-anchor="middle">Gemini models</text>
-
-    <rect x="195" y="10" width="165" height="84" rx="16" fill="#ffffff" fill-opacity="0.04" stroke="#ffffff" stroke-opacity="0.09"/>
-    <text x="277" y="52" font-size="26" font-weight="800" fill="url(#st-num)" text-anchor="middle">15</text>
-    <text x="277" y="76" font-size="11.5" fill="#8fa3c8" text-anchor="middle">API endpoints</text>
-
-    <rect x="370" y="10" width="165" height="84" rx="16" fill="#ffffff" fill-opacity="0.04" stroke="#ffffff" stroke-opacity="0.09"/>
-    <text x="452" y="52" font-size="26" font-weight="800" fill="url(#st-num)" text-anchor="middle">491</text>
-    <text x="452" y="76" font-size="11.5" fill="#8fa3c8" text-anchor="middle">Automated tests</text>
-
-    <rect x="545" y="10" width="165" height="84" rx="16" fill="#ffffff" fill-opacity="0.04" stroke="#ffffff" stroke-opacity="0.09"/>
-    <text x="627" y="52" font-size="26" font-weight="800" fill="url(#st-num)" text-anchor="middle">5</text>
-    <text x="627" y="76" font-size="11.5" fill="#8fa3c8" text-anchor="middle">Deploy targets</text>
-  </g>
-</svg>
+<img src="docs/stats.svg" width="760" alt="Gemini Web2API by the numbers — 8 models, 15 endpoints, 491 tests, 5 deploy targets">
 
 </div>
 
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 28" width="100%" style="max-width:760px" role="img" aria-label="section divider"><line x1="0" y1="14" x2="344" y2="14" stroke="#1e2a4a" stroke-width="1.5"/><line x1="416" y1="14" x2="760" y2="14" stroke="#1e2a4a" stroke-width="1.5"/><path d="M380 6l7 8-7 8-7-8z" fill="none" stroke="#6366f1" stroke-width="1.5"/><circle cx="348" cy="14" r="2.5" fill="#4f8cff"/><circle cx="412" cy="14" r="2.5" fill="#a78bfa"/></svg>
+<img src="docs/section-divider.svg" width="760" alt="section divider">
 
 # 📑 Table of Contents
 
@@ -180,7 +67,7 @@
 
 [⬆ Back to top](#readme-top)
 
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 28" width="100%" style="max-width:760px" role="img" aria-label="section divider"><line x1="0" y1="14" x2="344" y2="14" stroke="#1e2a4a" stroke-width="1.5"/><line x1="416" y1="14" x2="760" y2="14" stroke="#1e2a4a" stroke-width="1.5"/><path d="M380 6l7 8-7 8-7-8z" fill="none" stroke="#6366f1" stroke-width="1.5"/><circle cx="348" cy="14" r="2.5" fill="#4f8cff"/><circle cx="412" cy="14" r="2.5" fill="#a78bfa"/></svg>
+<img src="docs/section-divider.svg" width="760" alt="section divider">
 
 # ✨ Features
 
@@ -223,7 +110,7 @@
 
 [⬆ Back to top](#readme-top)
 
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 28" width="100%" style="max-width:760px" role="img" aria-label="section divider"><line x1="0" y1="14" x2="344" y2="14" stroke="#1e2a4a" stroke-width="1.5"/><line x1="416" y1="14" x2="760" y2="14" stroke="#1e2a4a" stroke-width="1.5"/><path d="M380 6l7 8-7 8-7-8z" fill="none" stroke="#6366f1" stroke-width="1.5"/><circle cx="348" cy="14" r="2.5" fill="#4f8cff"/><circle cx="412" cy="14" r="2.5" fill="#a78bfa"/></svg>
+<img src="docs/section-divider.svg" width="760" alt="section divider">
 
 # 📸 Screenshots
 
@@ -234,9 +121,9 @@
 
 | 🖥 Server console | 🧩 Extension popup | ⚙️ `config.json` |
 |---|---|---|
-| <img src="docs/shot-console.png" width="320" alt="Real server console — boot banner and live request log"> | <img src="docs/shot-popup.png" width="260" alt="Real extension popup — Auto-refresh status and Connection settings"> | <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 190" width="320" role="img" aria-label="Config editor mockup"><rect width="320" height="190" rx="12" fill="#0b1220"/><rect x="12" y="10" width="296" height="20" rx="6" fill="#151d30"/><circle cx="24" cy="20" r="3.5" fill="#f87171"/><circle cx="35" cy="20" r="3.5" fill="#fbbf24"/><circle cx="46" cy="20" r="3.5" fill="#34d399"/><text x="160" y="24" font-family="ui-monospace,monospace" font-size="9" fill="#64748b" text-anchor="middle">config.json</text><text x="16" y="48" font-family="ui-monospace,monospace" font-size="10" fill="#94a3b8">{"</text><text x="16" y="62" font-family="ui-monospace,monospace" font-size="10" fill="#7dd3fc">"port"</text><text x="60" y="62" font-family="ui-monospace,monospace" font-size="10" fill="#fbbf24">: 8081</text><text x="16" y="78" font-family="ui-monospace,monospace" font-size="10" fill="#7dd3fc">"api_keys"</text><text x="60" y="78" font-family="ui-monospace,monospace" font-size="10" fill="#34d399">: ["sk-gemini"]</text><text x="16" y="94" font-family="ui-monospace,monospace" font-size="10" fill="#7dd3fc">"proxy_fallbacks"</text><text x="60" y="94" font-family="ui-monospace,monospace" font-size="10" fill="#34d399">: ["http://127.0.0.1:7890"]</text><text x="16" y="110" font-family="ui-monospace,monospace" font-size="10" fill="#7dd3fc">"auto_update_bl"</text><text x="60" y="110" font-family="ui-monospace,monospace" font-size="10" fill="#f472b6">: true</text><text x="16" y="126" font-family="ui-monospace,monospace" font-size="10" fill="#7dd3fc">"cookie_refresh_key"</text><text x="60" y="126" font-family="ui-monospace,monospace" font-size="10" fill="#34d399">: "sk-gemini"</text><text x="16" y="142" font-family="ui-monospace,monospace" font-size="10" fill="#94a3b8">}</text><text x="16" y="162" font-family="ui-sans-serif,sans-serif" font-size="9" fill="#64748b">✓ schema validated</text></svg> |
+| <img src="docs/shot-console.png" width="320" alt="Real server console — boot banner and live request log"> | <img src="docs/shot-popup.png" width="260" alt="Real extension popup — Auto-refresh status and Connection settings"> | <img src="docs/mockup-config.svg" width="320" alt="Config editor mockup"> |
 | **Streaming output** | **Client settings** | **Health check** |
-| <img src="docs/shot-stream.png" width="320" alt="Real live SSE stream from curl -N"> | <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 190" width="320" role="img" aria-label="Client settings mockup"><rect width="320" height="190" rx="12" fill="#0b1220"/><rect x="12" y="10" width="296" height="20" rx="6" fill="#151d30"/><circle cx="24" cy="20" r="3.5" fill="#f87171"/><circle cx="35" cy="20" r="3.5" fill="#fbbf24"/><circle cx="46" cy="20" r="3.5" fill="#34d399"/><text x="160" y="24" font-family="ui-monospace,monospace" font-size="9" fill="#64748b" text-anchor="middle">Cherry Studio / ChatBox</text><text x="16" y="48" font-family="ui-sans-serif,sans-serif" font-size="10" fill="#e2e8f0">API Base URL</text><rect x="16" y="56" width="288" height="22" rx="6" fill="#151d30"/><text x="26" y="71" font-family="ui-monospace,monospace" font-size="10" fill="#38bdf8">http://localhost:8081/v1</text><text x="16" y="94" font-family="ui-sans-serif,sans-serif" font-size="10" fill="#e2e8f0">API Key</text><rect x="16" y="102" width="288" height="22" rx="6" fill="#151d30"/><text x="26" y="117" font-family="ui-monospace,monospace" font-size="10" fill="#a5b4d0">sk-gemini••••••••</text><text x="16" y="140" font-family="ui-sans-serif,sans-serif" font-size="10" fill="#e2e8f0">Model</text><rect x="16" y="148" width="288" height="22" rx="6" fill="#151d30"/><text x="26" y="163" font-family="ui-monospace,monospace" font-size="10" fill="#34d399">gemini-3.6-flash ▾</text></svg> | <img src="docs/shot-health.png" width="320" alt="Real GET / health check response"> |
+| <img src="docs/shot-stream.png" width="320" alt="Real live SSE stream from curl -N"> | <img src="docs/mockup-client.svg" width="320" alt="Client settings mockup"> | <img src="docs/shot-health.png" width="320" alt="Real GET / health check response"> |
 | **Extension icon** | | |
 | <img src="docs/shot-icon.png" width="170" alt="Redesigned extension toolbar icon — G monogram with gold cookie dot"> | | |
 
@@ -244,7 +131,7 @@
 
 [⬆ Back to top](#readme-top)
 
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 28" width="100%" style="max-width:760px" role="img" aria-label="section divider"><line x1="0" y1="14" x2="344" y2="14" stroke="#1e2a4a" stroke-width="1.5"/><line x1="416" y1="14" x2="760" y2="14" stroke="#1e2a4a" stroke-width="1.5"/><path d="M380 6l7 8-7 8-7-8z" fill="none" stroke="#6366f1" stroke-width="1.5"/><circle cx="348" cy="14" r="2.5" fill="#4f8cff"/><circle cx="412" cy="14" r="2.5" fill="#a78bfa"/></svg>
+<img src="docs/section-divider.svg" width="760" alt="section divider">
 
 # 🎥 Demo
 
@@ -285,7 +172,7 @@ or embed a YouTube video:
 
 [⬆ Back to top](#readme-top)
 
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 28" width="100%" style="max-width:760px" role="img" aria-label="section divider"><line x1="0" y1="14" x2="344" y2="14" stroke="#1e2a4a" stroke-width="1.5"/><line x1="416" y1="14" x2="760" y2="14" stroke="#1e2a4a" stroke-width="1.5"/><path d="M380 6l7 8-7 8-7-8z" fill="none" stroke="#6366f1" stroke-width="1.5"/><circle cx="348" cy="14" r="2.5" fill="#4f8cff"/><circle cx="412" cy="14" r="2.5" fill="#a78bfa"/></svg>
+<img src="docs/section-divider.svg" width="760" alt="section divider">
 
 # 🏗 Architecture
 
@@ -456,7 +343,7 @@ flowchart TD
 
 [⬆ Back to top](#readme-top)
 
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 28" width="100%" style="max-width:760px" role="img" aria-label="section divider"><line x1="0" y1="14" x2="344" y2="14" stroke="#1e2a4a" stroke-width="1.5"/><line x1="416" y1="14" x2="760" y2="14" stroke="#1e2a4a" stroke-width="1.5"/><path d="M380 6l7 8-7 8-7-8z" fill="none" stroke="#6366f1" stroke-width="1.5"/><circle cx="348" cy="14" r="2.5" fill="#4f8cff"/><circle cx="412" cy="14" r="2.5" fill="#a78bfa"/></svg>
+<img src="docs/section-divider.svg" width="760" alt="section divider">
 
 # 🛠 Tech Stack
 
@@ -519,7 +406,7 @@ flowchart TD
 
 [⬆ Back to top](#readme-top)
 
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 28" width="100%" style="max-width:760px" role="img" aria-label="section divider"><line x1="0" y1="14" x2="344" y2="14" stroke="#1e2a4a" stroke-width="1.5"/><line x1="416" y1="14" x2="760" y2="14" stroke="#1e2a4a" stroke-width="1.5"/><path d="M380 6l7 8-7 8-7-8z" fill="none" stroke="#6366f1" stroke-width="1.5"/><circle cx="348" cy="14" r="2.5" fill="#4f8cff"/><circle cx="412" cy="14" r="2.5" fill="#a78bfa"/></svg>
+<img src="docs/section-divider.svg" width="760" alt="section divider">
 
 # ⚡ Quick Start
 
@@ -582,7 +469,7 @@ The container copies `config.example.json` → `/app/config.json` automatically,
 
 [⬆ Back to top](#readme-top)
 
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 28" width="100%" style="max-width:760px" role="img" aria-label="section divider"><line x1="0" y1="14" x2="344" y2="14" stroke="#1e2a4a" stroke-width="1.5"/><line x1="416" y1="14" x2="760" y2="14" stroke="#1e2a4a" stroke-width="1.5"/><path d="M380 6l7 8-7 8-7-8z" fill="none" stroke="#6366f1" stroke-width="1.5"/><circle cx="348" cy="14" r="2.5" fill="#4f8cff"/><circle cx="412" cy="14" r="2.5" fill="#a78bfa"/></svg>
+<img src="docs/section-divider.svg" width="760" alt="section divider">
 
 # 📁 Project Structure
 
@@ -620,7 +507,7 @@ gemini-web2api/
 
 [⬆ Back to top](#readme-top)
 
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 28" width="100%" style="max-width:760px" role="img" aria-label="section divider"><line x1="0" y1="14" x2="344" y2="14" stroke="#1e2a4a" stroke-width="1.5"/><line x1="416" y1="14" x2="760" y2="14" stroke="#1e2a4a" stroke-width="1.5"/><path d="M380 6l7 8-7 8-7-8z" fill="none" stroke="#6366f1" stroke-width="1.5"/><circle cx="348" cy="14" r="2.5" fill="#4f8cff"/><circle cx="412" cy="14" r="2.5" fill="#a78bfa"/></svg>
+<img src="docs/section-divider.svg" width="760" alt="section divider">
 
 # 🔐 Configuration
 
@@ -654,7 +541,7 @@ All runtime behavior is driven by **`config.json`** (copy from `config.example.j
 
 [⬆ Back to top](#readme-top)
 
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 28" width="100%" style="max-width:760px" role="img" aria-label="section divider"><line x1="0" y1="14" x2="344" y2="14" stroke="#1e2a4a" stroke-width="1.5"/><line x1="416" y1="14" x2="760" y2="14" stroke="#1e2a4a" stroke-width="1.5"/><path d="M380 6l7 8-7 8-7-8z" fill="none" stroke="#6366f1" stroke-width="1.5"/><circle cx="348" cy="14" r="2.5" fill="#4f8cff"/><circle cx="412" cy="14" r="2.5" fill="#a78bfa"/></svg>
+<img src="docs/section-divider.svg" width="760" alt="section divider">
 
 # 📖 API Reference
 
@@ -743,7 +630,7 @@ curl http://localhost:8081/v1/chat/completions \
 
 [⬆ Back to top](#readme-top)
 
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 28" width="100%" style="max-width:760px" role="img" aria-label="section divider"><line x1="0" y1="14" x2="344" y2="14" stroke="#1e2a4a" stroke-width="1.5"/><line x1="416" y1="14" x2="760" y2="14" stroke="#1e2a4a" stroke-width="1.5"/><path d="M380 6l7 8-7 8-7-8z" fill="none" stroke="#6366f1" stroke-width="1.5"/><circle cx="348" cy="14" r="2.5" fill="#4f8cff"/><circle cx="412" cy="14" r="2.5" fill="#a78bfa"/></svg>
+<img src="docs/section-divider.svg" width="760" alt="section divider">
 
 # 🎯 Usage Examples
 
@@ -844,7 +731,7 @@ gemini --api-base http://localhost:8081
 
 [⬆ Back to top](#readme-top)
 
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 28" width="100%" style="max-width:760px" role="img" aria-label="section divider"><line x1="0" y1="14" x2="344" y2="14" stroke="#1e2a4a" stroke-width="1.5"/><line x1="416" y1="14" x2="760" y2="14" stroke="#1e2a4a" stroke-width="1.5"/><path d="M380 6l7 8-7 8-7-8z" fill="none" stroke="#6366f1" stroke-width="1.5"/><circle cx="348" cy="14" r="2.5" fill="#4f8cff"/><circle cx="412" cy="14" r="2.5" fill="#a78bfa"/></svg>
+<img src="docs/section-divider.svg" width="760" alt="section divider">
 
 # 📊 Performance
 
@@ -861,7 +748,7 @@ gemini --api-base http://localhost:8081
 
 [⬆ Back to top](#readme-top)
 
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 28" width="100%" style="max-width:760px" role="img" aria-label="section divider"><line x1="0" y1="14" x2="344" y2="14" stroke="#1e2a4a" stroke-width="1.5"/><line x1="416" y1="14" x2="760" y2="14" stroke="#1e2a4a" stroke-width="1.5"/><path d="M380 6l7 8-7 8-7-8z" fill="none" stroke="#6366f1" stroke-width="1.5"/><circle cx="348" cy="14" r="2.5" fill="#4f8cff"/><circle cx="412" cy="14" r="2.5" fill="#a78bfa"/></svg>
+<img src="docs/section-divider.svg" width="760" alt="section divider">
 
 # 🧪 Testing
 
@@ -899,7 +786,7 @@ node --check gemini-cookie-sync-extension/popup.js
 
 [⬆ Back to top](#readme-top)
 
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 28" width="100%" style="max-width:760px" role="img" aria-label="section divider"><line x1="0" y1="14" x2="344" y2="14" stroke="#1e2a4a" stroke-width="1.5"/><line x1="416" y1="14" x2="760" y2="14" stroke="#1e2a4a" stroke-width="1.5"/><path d="M380 6l7 8-7 8-7-8z" fill="none" stroke="#6366f1" stroke-width="1.5"/><circle cx="348" cy="14" r="2.5" fill="#4f8cff"/><circle cx="412" cy="14" r="2.5" fill="#a78bfa"/></svg>
+<img src="docs/section-divider.svg" width="760" alt="section divider">
 
 # 🚀 Deployment
 
@@ -959,7 +846,7 @@ The server is a single HTTP process — deploy it anywhere that runs Python or c
 
 [⬆ Back to top](#readme-top)
 
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 28" width="100%" style="max-width:760px" role="img" aria-label="section divider"><line x1="0" y1="14" x2="344" y2="14" stroke="#1e2a4a" stroke-width="1.5"/><line x1="416" y1="14" x2="760" y2="14" stroke="#1e2a4a" stroke-width="1.5"/><path d="M380 6l7 8-7 8-7-8z" fill="none" stroke="#6366f1" stroke-width="1.5"/><circle cx="348" cy="14" r="2.5" fill="#4f8cff"/><circle cx="412" cy="14" r="2.5" fill="#a78bfa"/></svg>
+<img src="docs/section-divider.svg" width="760" alt="section divider">
 
 # 🤝 Contributing
 
@@ -998,7 +885,7 @@ test(extension): cover popup mismatch state
 
 [⬆ Back to top](#readme-top)
 
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 28" width="100%" style="max-width:760px" role="img" aria-label="section divider"><line x1="0" y1="14" x2="344" y2="14" stroke="#1e2a4a" stroke-width="1.5"/><line x1="416" y1="14" x2="760" y2="14" stroke="#1e2a4a" stroke-width="1.5"/><path d="M380 6l7 8-7 8-7-8z" fill="none" stroke="#6366f1" stroke-width="1.5"/><circle cx="348" cy="14" r="2.5" fill="#4f8cff"/><circle cx="412" cy="14" r="2.5" fill="#a78bfa"/></svg>
+<img src="docs/section-divider.svg" width="760" alt="section divider">
 
 # 🗺 Roadmap
 
@@ -1032,7 +919,7 @@ test(extension): cover popup mismatch state
 
 [⬆ Back to top](#readme-top)
 
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 28" width="100%" style="max-width:760px" role="img" aria-label="section divider"><line x1="0" y1="14" x2="344" y2="14" stroke="#1e2a4a" stroke-width="1.5"/><line x1="416" y1="14" x2="760" y2="14" stroke="#1e2a4a" stroke-width="1.5"/><path d="M380 6l7 8-7 8-7-8z" fill="none" stroke="#6366f1" stroke-width="1.5"/><circle cx="348" cy="14" r="2.5" fill="#4f8cff"/><circle cx="412" cy="14" r="2.5" fill="#a78bfa"/></svg>
+<img src="docs/section-divider.svg" width="760" alt="section divider">
 
 # ❓ FAQ
 
@@ -1080,7 +967,7 @@ Cherry Studio, ChatBox, NextChat, **AionUI** ([setup guide](AIONUI.md)), anythin
 
 [⬆ Back to top](#readme-top)
 
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 28" width="100%" style="max-width:760px" role="img" aria-label="section divider"><line x1="0" y1="14" x2="344" y2="14" stroke="#1e2a4a" stroke-width="1.5"/><line x1="416" y1="14" x2="760" y2="14" stroke="#1e2a4a" stroke-width="1.5"/><path d="M380 6l7 8-7 8-7-8z" fill="none" stroke="#6366f1" stroke-width="1.5"/><circle cx="348" cy="14" r="2.5" fill="#4f8cff"/><circle cx="412" cy="14" r="2.5" fill="#a78bfa"/></svg>
+<img src="docs/section-divider.svg" width="760" alt="section divider">
 
 # 🙌 Acknowledgements
 
@@ -1093,7 +980,7 @@ Cherry Studio, ChatBox, NextChat, **AionUI** ([setup guide](AIONUI.md)), anythin
 
 [⬆ Back to top](#readme-top)
 
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 28" width="100%" style="max-width:760px" role="img" aria-label="section divider"><line x1="0" y1="14" x2="344" y2="14" stroke="#1e2a4a" stroke-width="1.5"/><line x1="416" y1="14" x2="760" y2="14" stroke="#1e2a4a" stroke-width="1.5"/><path d="M380 6l7 8-7 8-7-8z" fill="none" stroke="#6366f1" stroke-width="1.5"/><circle cx="348" cy="14" r="2.5" fill="#4f8cff"/><circle cx="412" cy="14" r="2.5" fill="#a78bfa"/></svg>
+<img src="docs/section-divider.svg" width="760" alt="section divider">
 
 # 📜 License
 
@@ -1125,7 +1012,7 @@ SOFTWARE.
 
 [⬆ Back to top](#readme-top)
 
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 28" width="100%" style="max-width:760px" role="img" aria-label="section divider"><line x1="0" y1="14" x2="344" y2="14" stroke="#1e2a4a" stroke-width="1.5"/><line x1="416" y1="14" x2="760" y2="14" stroke="#1e2a4a" stroke-width="1.5"/><path d="M380 6l7 8-7 8-7-8z" fill="none" stroke="#6366f1" stroke-width="1.5"/><circle cx="348" cy="14" r="2.5" fill="#4f8cff"/><circle cx="412" cy="14" r="2.5" fill="#a78bfa"/></svg>
+<img src="docs/section-divider.svg" width="760" alt="section divider">
 
 # ❤️ Support
 
@@ -1144,7 +1031,7 @@ SOFTWARE.
 
 [⬆ Back to top](#readme-top)
 
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 28" width="100%" style="max-width:760px" role="img" aria-label="section divider"><line x1="0" y1="14" x2="344" y2="14" stroke="#1e2a4a" stroke-width="1.5"/><line x1="416" y1="14" x2="760" y2="14" stroke="#1e2a4a" stroke-width="1.5"/><path d="M380 6l7 8-7 8-7-8z" fill="none" stroke="#6366f1" stroke-width="1.5"/><circle cx="348" cy="14" r="2.5" fill="#4f8cff"/><circle cx="412" cy="14" r="2.5" fill="#a78bfa"/></svg>
+<img src="docs/section-divider.svg" width="760" alt="section divider">
 
 <div align="center">
 
