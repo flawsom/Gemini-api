@@ -136,7 +136,7 @@
 [🦄 Product Hunt Launch Kit](PRODUCT_HUNT.md) · [🤖 AionUI / Agentic Platforms](AIONUI.md)
 
 <!-- STAT STRIP -->
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 104" width="100%" style="max-width:760px" role="img" aria-label="Gemini Web2API by the numbers — 8 models, 14 endpoints, 491 tests, 5 deploy targets">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 104" width="100%" style="max-width:760px" role="img" aria-label="Gemini Web2API by the numbers — 8 models, 15 endpoints, 491 tests, 5 deploy targets">
   <defs>
     <linearGradient id="st-num" x1="0" y1="0" x2="1" y2="0">
       <stop offset="0" stop-color="#4f8cff"/>
@@ -149,7 +149,7 @@
     <text x="102" y="76" font-size="11.5" fill="#8fa3c8" text-anchor="middle">Gemini models</text>
 
     <rect x="195" y="10" width="165" height="84" rx="16" fill="#ffffff" fill-opacity="0.04" stroke="#ffffff" stroke-opacity="0.09"/>
-    <text x="277" y="52" font-size="26" font-weight="800" fill="url(#st-num)" text-anchor="middle">14</text>
+    <text x="277" y="52" font-size="26" font-weight="800" fill="url(#st-num)" text-anchor="middle">15</text>
     <text x="277" y="76" font-size="11.5" fill="#8fa3c8" text-anchor="middle">API endpoints</text>
 
     <rect x="370" y="10" width="165" height="84" rx="16" fill="#ffffff" fill-opacity="0.04" stroke="#ffffff" stroke-opacity="0.09"/>
@@ -679,16 +679,17 @@ Authorization: Bearer sk-gemini
 | Method | Path | Description |
 |---|---|---|
 | `GET` | `/` | Health check — status, BL, cookie age, 405 streak, proxy plan, last bridge result |
-| `GET` | `/v1` | OpenAI-compatible API root (auth-gated) |
 | `GET` | `/v1/models` | List available Gemini models |
 | `POST` | `/v1/chat/completions` | Chat completions — streaming, tools, images |
 | `POST` | `/v1/responses` | OpenAI Responses API (Codex CLI) |
-| `GET/POST` | `/v1beta/models/:model:generateContent` | Native Gemini protocol (Gemini CLI) |
-| `POST` | `/internal/cookie-refresh/request` | Extension: request a cookie refresh flag |
+| `GET` | `/v1beta/models` | Native model list (Gemini CLI protocol) |
+| `POST` | `/v1beta/models/:model:generateContent` | Native Gemini protocol (Gemini CLI) |
+| `POST` | `/v1beta/models/:model:streamGenerateContent` | Native Gemini protocol, streaming |
+| `GET/POST` | `/internal/cookie-refresh/request` | Extension: request / read a cookie refresh flag |
 | `POST` | `/internal/cookie-refresh/upload` | Extension: upload fresh cookies |
 | `POST` | `/internal/cookie-refresh/verify` | Verify an API key — **side-effect free** (200/401) |
 | `GET` | `/internal/cookie-refresh/config` | Advertise `base_url` + `api_key` (loopback only) |
-| `GET` | `/internal/image-bridge/request` | Extension: fetch a parked image request |
+| `GET/POST` | `/internal/image-bridge/request` | Extension: fetch a parked image request |
 | `POST` | `/internal/image-bridge/claim` | Extension: claim the request (atomic, one winner) |
 | `POST` | `/internal/image-bridge/result` | Extension: upload the answer + its manifest `ext_version` (logged, surfaced in `/health`) |
 | `POST` | `/internal/image-bridge/expire` | Watchdog: expire an abandoned claim (loopback only) |
@@ -699,8 +700,10 @@ Authorization: Bearer sk-gemini
 |---|---|---|
 | `gemini-3.6-flash` | Default | Fast all-around (default) |
 | `gemini-3.5-flash` | Alias | Points at the 3.6 backend |
-| `gemini-3.6-pro-thinking` | Thinking | Deep reasoning, ~20k char output |
-| `gemini-3.6-pro` | Pro | Premium quality |
+| `gemini-3.5-flash-thinking` | Thinking | Deep reasoning, ~20k char output |
+| `gemini-3.1-pro` | Pro | Premium quality (needs a real cookie session) |
+| `gemini-3.1-pro-enhanced` | Pro | Pro with enhanced output (experimental) |
+| `gemini-3.5-flash-thinking-lite` | Thinking | Dynamic thinking with adaptive depth |
 | `gemini-auto` | Auto | Automatic model selection |
 | `gemini-flash-lite` | Lite | Lightest & fastest |
 
@@ -1131,9 +1134,9 @@ SOFTWARE.
 <div align="center">
 
 <a href="https://github.com/flawsom/Gemini-api/stargazers"><img src="https://img.shields.io/badge/☆_Star_this_repo-f59e0b?style=for-the-badge&logo=github&logoColor=white" alt="Star this repo"></a>
-<a href="https://github.com/sponsors/OWNER"><img src="https://img.shields.io/badge/❤️_Sponsor-6366f1?style=for-the-badge&logo=githubsponsors&logoColor=white" alt="Sponsor"></a>
-<a href="https://www.buymeacoffee.com/OWNER"><img src="https://img.shields.io/badge/Buy_me_a_coffee-FFDD00?style=for-the-badge&logo=buymeacoffee&logoColor=black" alt="Buy me a coffee"></a>
-<a href="mailto:you@example.com"><img src="https://img.shields.io/badge/✉_Contact-0ea5e9?style=for-the-badge&logo=gmail&logoColor=white" alt="Contact"></a>
+<a href="https://github.com/sponsors/flawsom"><img src="https://img.shields.io/badge/❤️_Sponsor-6366f1?style=for-the-badge&logo=githubsponsors&logoColor=white" alt="Sponsor"></a>
+<a href="https://github.com/sponsors/flawsom"><img src="https://img.shields.io/badge/☕_Buy_me_a_coffee-FFDD00?style=for-the-badge&logo=buymeacoffee&logoColor=black" alt="Buy me a coffee"></a>
+<a href="mailto:sibaprasadpanda56@gmail.com"><img src="https://img.shields.io/badge/✉_Contact-0ea5e9?style=for-the-badge&logo=gmail&logoColor=white" alt="Contact"></a>
 
 **Report issues** → [GitHub Issues](https://github.com/flawsom/Gemini-api/issues) · **Discuss** → [GitHub Discussions](https://github.com/flawsom/Gemini-api/discussions)
 
