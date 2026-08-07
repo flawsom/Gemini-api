@@ -1,0 +1,40 @@
+{
+  "manifest_version": 3,
+  "name": "Gemini Cookie Sync",
+  "version": "1.15",
+  "description": "Exports Gemini cookies plus XSRF/build metadata for gemini-web2api. v1.15: image-bridge results report the extension version so the server/watchdog can flag a stale (unreloaded) build. v1.14: image bridge timing - waits the full server budget (real cycle: poll + cold window load + answer can take minutes) and self-diagnoses when no answer appears. v1.13: image bridge robustness - the page posts results directly (survives service-worker suspension). v1.12: image bridge - processes image requests in a real Gemini window (BardErrorInfo 1100 workaround). v1.11: bolder icon. v1.10: toolbar cookie-age badge. v1.9: desktop stale/405 notifications. v1.8: one-tap Refresh in the health panel. v1.7: live Server health panel.",
+  "icons": {
+    "32": "icons/icon32.png",
+    "128": "icons/icon128.png"
+  },
+  "permissions": [
+    "cookies",
+    "downloads",
+    "tabs",
+    "scripting",
+    "alarms",
+    "windows",
+    "storage",
+    "notifications"
+  ],
+  "host_permissions": [
+    "https://google.com/*",
+    "https://*.google.com/*",
+    "http://127.0.0.1/*",
+    "http://localhost/*"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://gemini.google.com/*"],
+      "js": ["image_bridge.js"],
+      "run_at": "document_idle"
+    }
+  ],
+  "action": {
+    "default_title": "Gemini Cookie Sync",
+    "default_popup": "popup.html"
+  }
+}

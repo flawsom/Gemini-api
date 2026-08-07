@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Gemini Cookie Sync</title>
+  <style>
+    :root { color-scheme: light dark; }
+    body {
+      font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+      width: 390px;
+      margin: 0;
+      padding: 16px;
+      background: Canvas;
+      color: CanvasText;
+    }
+    h1 { font-size: 17px; margin: 0 0 8px; }
+    p { font-size: 13px; line-height: 1.55; margin: 8px 0; }
+    button {
+      width: 100%;
+      padding: 10px 12px;
+      margin-top: 10px;
+      border: 0;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+    button:disabled { opacity: .55; cursor: wait; }
+    #export { background: #1769e0; color: white; }
+    #inspect, #open { background: color-mix(in srgb, CanvasText 10%, Canvas); color: CanvasText; }
+    #status {
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
+      border-radius: 8px;
+      padding: 10px;
+      background: color-mix(in srgb, CanvasText 7%, Canvas);
+      min-height: 44px;
+      max-height: 240px;
+      overflow-y: auto;
+    }
+    .warn { color: #b34800; }
+    .ok { color: #17823b; }
+    code { direction: ltr; unicode-bidi: embed; }
+    /* live dot on the health heading - goes orange when the server is unreachable */
+    h2.live::before { content: "●"; color: #17823b; font-size: 9px; vertical-align: 2px; margin-right: 5px; }
+    h2.live.offline::before { color: #b34800; }
+    .note { opacity: .78; }
+    hr { border: 0; border-top: 1px solid color-mix(in srgb, CanvasText 18%, transparent); margin: 14px 0; }
+    h2 { font-size: 13px; text-transform: uppercase; letter-spacing: .06em; opacity: .72; margin: 0 0 8px; }
+    .rows { display: flex; flex-direction: column; gap: 6px; margin-bottom: 4px; }
+    .row {
+      display: flex; justify-content: space-between; align-items: baseline;
+      font-size: 13px; gap: 12px;
+    }
+    .row .lbl { opacity: .72; flex-shrink: 0; }
+    .row .val { overflow-wrap: anywhere; text-align: right; }
+    .valwrap { display: inline-flex; align-items: baseline; gap: 6px; }
+    /* small link-style button inside a health row - fires the same refresh
+       flow as the Refresh now button, but only shown when cookies are stale */
+    .linkbtn {
+      background: none; border: 0; padding: 0; margin: 0;
+      color: #b34800; font-size: 12px; text-decoration: underline;
+      cursor: pointer; width: auto;
+    }
+    .linkbtn:disabled { opacity: .5; cursor: wait; }
+    #refreshNow { background: #17823b; color: white; }
+    #refreshNow:disabled { background: #17823b; }
+    #saveConn { background: #1769e0; color: white; }
+    .btnrow { display: flex; gap: 8px; margin-top: 10px; }
+    .btnrow button { flex: 1; margin-top: 0; }
+    .field { display: flex; flex-direction: column; gap: 4px; font-size: 13px; }
+    .field .lbl { opacity: .72; }
+    input[type="text"], input[type="password"] {
+      width: 100%; box-sizing: border-box; padding: 6px 8px;
+      border: 1px solid color-mix(in srgb, CanvasText 25%, transparent);
+      border-radius: 6px; background: Canvas; color: CanvasText;
+      font-size: 12px; font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    }
+    input.bad { outline: 2px solid #b34800; border-color: #b34800; }
+  </style>
+</head>
+<body>
+  <h1>Gemini Cookie Sync</h1>
+  <p>Exports cookies, XSRF, and build metadata from the current Gemini session to <code>gemini-auth.json</code>. Nothing is sent over the network.</p>
+  <button id="open" type="button">Open Gemini</button>
+  <button id="inspect" type="button">Inspect session</button>
+  <button id="export" type="button">Export gemini-auth.json</button>
+  <hr>
+  <h2>Auto-refresh</h2>
+  <div class="rows">
+    <div class="row"><span class="lbl">Server</span><span id="serverInfo" class="val">…</span></div>
+    <div class="row"><span class="lbl">Last refresh</span><span id="lastRefresh" class="val">never</span></div>
+    <div class="row"><span class="lbl">Last failure</span><span id="lastFailure" class="val">none</span></div>
+    <div class="row"><span class="lbl">Activity</span><span id="lastActivity" class="val">idle</span></div>
+  </div>
+  <button id="refreshNow" type="button">Refresh now</button>
+  <hr>
+  <h2 id="healthHeading" class="live">Server health</h2>
+  <div class="rows">
+    <div class="row"><span class="lbl">Cookie age</span><span class="valwrap"><span id="healthCookieAge" class="val">…</span><button id="healthRefresh" type="button" class="linkbtn" hidden>Refresh</button></span></div>
+    <div class="row"><span class="lbl">Cookie updated</span><span id="healthUpdated" class="val">…</span></div>
+    <div class="row"><span class="lbl">405 streak</span><span id="health405" class="val">…</span></div>
+    <div class="row"><span class="lbl">Build label</span><span id="healthBl" class="val">…</span></div>
+    <div class="row"><span class="lbl">Last bridge</span><span id="healthBridge" class="val">never</span></div>
+  </div>
+  <p class="note">Fetched live from the local server (GET /) every 10s while this popup is open.</p>
+  <hr>
+  <h2>Connection</h2>
+  <div class="rows">
+    <label class="field"><span class="lbl">Server URL</span>
+      <input id="serverInput" type="text" spellcheck="false" placeholder="http://127.0.0.1:8081"></label>
+    <label class="field"><span class="lbl">API key</span>
+      <input id="keyInput" type="password" spellcheck="false" placeholder="sk-gemini"></label>
+  </div>
+  <div class="btnrow">
+    <button id="testConn" type="button">Test connection</button>
+    <button id="saveConn" type="button">Save</button>
+  </div>
+  <p id="status">Ready.</p>
+  <p class="note">Open Gemini, sign in, then refresh the page before inspection. The generated file contains highly sensitive session data; do not share it or commit it to Git.</p>
+  <script src="popup.js"></script>
+</body>
+</html>

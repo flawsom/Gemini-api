@@ -1,0 +1,11 @@
+blank_issues_enabled: true
+contact_links:
+  - name: 💬 Discussions
+    url: https://github.com/OWNER/REPO/discussions
+    about: Ask questions, share setups, and discuss ideas before opening an issue.
+  - name: 📚 README & docs
+    url: https://github.com/OWNER/REPO#readme
+    about: The README covers setup, config, API reference, and FAQ — check it first.
+  - name: 🛡 Security
+    url: https://github.com/OWNER/REPO/security/advisories/new
+    about: Report security vulnerabilities privately — do not open a public issue.

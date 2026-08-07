@@ -1,0 +1,38 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  # Everything that runs without external services: bundle drift check, the
+  # main suite (unit-only in offline mode), proxy-fallback stubs,
+  # cookie-refresh in no-browser/no-cookie mode, and the ephemeral-port
+  # integration test with the Gemini layer mocked. Pure stdlib - no pip
+  # installs needed.
+  python:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Offline full battery
+        run: python run_all_tests.py --offline
+      - name: Syntax sanity
+        run: python -m py_compile gemini_web2api.py gemini_web2api/*.py bundle.py watchdog.py autostart.py run_all_tests.py test_suite.py test_proxy_fallback.py test_multimodal_proxy.py test_sse.py test_payload_format.py test_image_bridge.py test_image_bridge_cdp.py image_bridge_cdp.py test_cookie_refresh.py test_watchdog.py test_run_all.py test_autostart.py test_integration.py docs/capture_screenshots.py
+
+  # Extension suites (pure Node, stub the chrome APIs - no browser needed).
+  extension:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - run: node test_extension.js
+      - run: node test_popup.js
+      - run: node --check gemini-cookie-sync-extension/background.js
+      - run: node --check gemini-cookie-sync-extension/popup.js
+      - run: node --check gemini-cookie-sync-extension/image_bridge.js

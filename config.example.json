@@ -1,0 +1,26 @@
+{
+  "port": 8081,
+  "host": "0.0.0.0",
+  "api_keys": [
+    "sk-gemini"
+  ],
+  "cookie_file": "./cookie.txt",
+  "proxy": null,
+  "proxy_fallbacks": [
+    "http://127.0.0.1:7890"
+  ],
+  "retry_attempts": 3,
+  "retry_delay_sec": 2,
+  "request_timeout_sec": 180,
+  "default_model": "gemini-3.6-flash",
+  "gemini_bl": "boq_assistant-bard-web-server_20260802.16_p0",
+  "auto_update_bl": false,
+  "auth_user": "1",
+  "xsrf_token": null,
+  "log_requests": true,
+  "temporary_chats": false,
+  "cookie_refresh_key": "sk-gemini",
+  "image_mode": "auto",
+  "image_bridge_timeout": 300,
+  "image_bridge": "auto"
+}
