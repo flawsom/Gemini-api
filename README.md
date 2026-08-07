@@ -153,10 +153,21 @@ curl -N http://localhost:8081/v1/chat/completions \
   -d '{"model": "gemini-3.6-flash", "stream": true, "messages": [{"role": "user", "content": "Count to 10, slowly."}]}'
 ```
 
-<details>
-<summary><b>📹 Add your demo video / GIF here</b></summary>
+<div align="center">
 
-Once you have captured a screen recording, drop the file into `docs/` and reference it:
+### ⚡ Real server demo — boot → request → token-by-token stream → done
+
+[![Gemini Web2API live demo — server boot, curl request, SSE token stream, final answer](docs/demo.gif)](docs/demo.gif)
+
+</div>
+
+> 🎬 The GIF above is a **real capture** of the server: boot banner, a streaming `curl -N` request, the SSE token-by-token response, and the completed answer.
+> Recorded at 2× scale for crisp text. Drop your own screen recording into `docs/` to replace it anytime.
+
+<details>
+<summary><b>📹 Want to swap in your own demo video?</b></summary>
+
+Drop the file into `docs/` and reference it:
 
 ```markdown
 [![Demo](docs/demo.mp4)](https://github.com/flawsom/Gemini-api/raw/main/docs/demo.mp4)
@@ -498,7 +509,8 @@ gemini-web2api/
 ├── start_server.bat               #   double-click launcher
 ├── config.json                    # 🔐 your runtime config (gitignored)
 ├── config.example.json            #   template — safe to commit
-├── docs/                          # 📸 real screenshots (regenerate: python docs/capture_screenshots.py)
+├── docs/                          # 📸 real screenshots + demo GIF + their generators
+│                                  #   (regenerate: python docs/capture_screenshots.py · python docs/make_demo.py)
 ├── Dockerfile                     # 🐳 python:3.12-slim
 ├── docker-compose.local.yml       #   one-command local stack
 ├── pyproject.toml                 # 📦 packaging (pip install -e .)
