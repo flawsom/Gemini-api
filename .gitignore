@@ -68,3 +68,11 @@ docs/launch-reel.mp4
 # Browser-automation scratch scripts (PH/launch/posting probes)
 _inv_*
 _post_*
+
+# Local scratch/test automation files
+_karma_*
+_rd_*
+docs/engineering-writeup.md
+docs/launch-distribution.md
+docs/make_selfheal_motion.py
+docs/prompt-motion-video.md
