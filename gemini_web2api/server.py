@@ -21,7 +21,7 @@ from .gemini import (generate, generate_stream, log,
                      cookie_refresh_requested, request_cookie_refresh,
                      clear_cookie_refresh, refresh_key,
                      _proxy_plan, _proxy_state, _bl_405)
-from .tools import messages_to_prompt, parse_tool_calls, google_contents_to_prompt, parse_google_function_calls
+from .tools import messages_to_prompt, parse_tool_calls, google_contents_to_prompt, parse_google_function_calls, normalize_tool_defs, tool_force_escalation
 from .multimodal import upload_image, fetch_image_bytes
 # NOTE: import by NAME, not `from . import image_bridge` - bundle.py drops
 # bare `from . import X` lines (no alias emitted), so the module object would
@@ -310,6 +310,44 @@ def _run_generation(prompt: str, model_id: int, think_mode: int,
             log(f"Direct image request blocked ({e}); delegating to the browser")
             return _bridge_chat(prompt, prepared, model_name)
         raise
+
+
+def _force_tool_call(prompt, model_id, think_mode, images, extra_fields, model_name,
+                     tool_choice, tool_defs, parse):
+    """Hard-enforce a required tool call with escalating prompts.
+
+    Returns (text, tool_calls). Raises RuntimeError if the model still refuses
+    after the escalation steps, so ``tool_choice: "required"`` (or native
+    functionCallingConfig mode=ANY) never silently degrades into plain text.
+    """
+    last_text = ""
+    for attempt in range(3):
+        retry_prompt = prompt + tool_force_escalation(tool_choice, tool_defs, attempt)
+        try:
+            text = _run_generation(retry_prompt, model_id, think_mode,
+                                   images, extra_fields, model_name)
+        except Exception as e:
+            if attempt == 2:
+                raise RuntimeError(f"upstream failed while forcing tool call: {e}")
+            continue
+        if text:
+            last_text = text
+            cleaned, calls = parse(text)
+            if calls:
+                return cleaned, calls
+    raise RuntimeError(
+        "model refused to produce the required tool call "
+        f"(tool_choice required / mode=ANY); last response: {last_text[:200]}"
+    )
+
+
+def _google_tool_names(req: dict) -> list:
+    """Extract function names from native Gemini tools (functionDeclarations)."""
+    names = []
+    for group in req.get("tools") or []:
+        for fn in group.get("functionDeclarations", []):
+            names.append(fn.get("name"))
+    return names
 
 
 class GeminiHandler(BaseHTTPRequestHandler):
@@ -687,21 +725,18 @@ class GeminiHandler(BaseHTTPRequestHandler):
         tool_calls = None
         if tools and text and tool_choice != "none":
             text, tool_calls = parse_tool_calls(text)
-        # tool_choice requires a tool: if the model answered with plain text,
-        # retry with a relaxed prompt (Gemini sometimes ignores coercive asks).
+        # tool_choice requires a tool: hard-enforce it with escalating retries;
+        # never silently degrade a required tool call into plain text.
         requires_tool = tool_choice == "required" or isinstance(tool_choice, dict)
         if tools and requires_tool and not tool_calls:
-            retry_prompt = prompt + "\n\nNow output only the tool_call block for the requested tool."
-            for _ in range(2):
-                try:
-                    text = _run_generation(retry_prompt, model_id, think_mode,
-                                           images, extra_fields, model_name)
-                except Exception:
-                    break
-                if text:
-                    text, tool_calls = parse_tool_calls(text)
-                    if tool_calls:
-                        break
+            try:
+                text, tool_calls = _force_tool_call(
+                    prompt, model_id, think_mode, images, extra_fields,
+                    model_name, tool_choice, normalize_tool_defs(tools),
+                    parse_tool_calls)
+            except RuntimeError as e:
+                self.send_json({"error": {"message": f"tool call required but not produced: {e}"}}, 502)
+                return
         msg = {"role": "assistant", "content": text or None}
         if tool_calls:
             msg["tool_calls"] = tool_calls
@@ -801,21 +836,18 @@ class GeminiHandler(BaseHTTPRequestHandler):
         tool_calls = None
         if tools and text and tool_choice != "none":
             text, tool_calls = parse_tool_calls(text)
-        # tool_choice requires a tool: if the model answered with plain text,
-        # retry with a relaxed prompt (Gemini sometimes ignores coercive asks).
+        # tool_choice requires a tool: hard-enforce it with escalating retries;
+        # never silently degrade a required tool call into plain text.
         requires_tool = tool_choice == "required" or isinstance(tool_choice, dict)
         if tools and requires_tool and not tool_calls:
-            retry_prompt = prompt + "\n\nNow output only the tool_call block for the requested tool."
-            for _ in range(2):
-                try:
-                    text = _run_generation(retry_prompt, model_id, think_mode,
-                                           images, extra_fields, model_name)
-                except Exception:
-                    break
-                if text:
-                    text, tool_calls = parse_tool_calls(text)
-                    if tool_calls:
-                        break
+            try:
+                text, tool_calls = _force_tool_call(
+                    prompt, model_id, think_mode, images, extra_fields,
+                    model_name, tool_choice, normalize_tool_defs(tools),
+                    parse_tool_calls)
+            except RuntimeError as e:
+                self.send_json({"error": {"message": f"tool call required but not produced: {e}"}}, 502)
+                return
 
         rid = f"resp_{uuid.uuid4().hex[:16]}"
         mid = f"msg_{uuid.uuid4().hex[:12]}"
@@ -954,6 +986,20 @@ class GeminiHandler(BaseHTTPRequestHandler):
         response_parts = []
         if has_tools and text:
             clean_text, function_calls = parse_google_function_calls(text)
+            if not function_calls and fc_mode == "ANY":
+                # Native mode=ANY is a hard requirement: escalate until a
+                # function call is produced instead of downgrading to text.
+                tool_defs = [{"name": n, "description": "", "parameters": {}}
+                             for n in _google_tool_names(req)]
+                try:
+                    clean_text, function_calls = _force_tool_call(
+                        prompt, model_id, think_mode, images, extra_fields,
+                        model_name, "required", tool_defs,
+                        parse_google_function_calls)
+                    text = clean_text
+                except RuntimeError as e:
+                    self.send_json({"error": {"message": f"function call required but not produced: {e}"}}, 502)
+                    return
             if function_calls:
                 if clean_text:
                     response_parts.append({"text": clean_text})

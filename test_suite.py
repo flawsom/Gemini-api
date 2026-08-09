@@ -675,7 +675,7 @@ p_none, _im = mod.messages_to_prompt([{"role": "user", "content": "hi"}], TOOLS,
 check("prompt with tool_choice none omits tools", "tool_call" not in p_none and p_none == "hi")
 p_spec, _im = mod.messages_to_prompt([{"role": "user", "content": "hi"}], TOOLS,
                                      {"type": "function", "function": {"name": "calculator"}})
-check("prompt specific tool choice", 'use the "calculator" tool' in p_spec)
+check("prompt specific tool choice", 'must call the "calculator" tool' in p_spec)
 p_toolmsg, _im = mod.messages_to_prompt([{"role": "tool", "name": "calculator", "content": "42"}])
 check("prompt tool-result message", "[Tool result for calculator]: 42" in p_toolmsg)
 

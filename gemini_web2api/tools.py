@@ -32,29 +32,64 @@ def _compress_b64_if_needed(b64: str) -> str:
         return b64[:MAX_IMAGE_B64_SIZE]
 
 
-def _build_tool_choice_instruction(tool_choice, tool_defs: list) -> str:
-    """Build a soft tool_choice guidance line.
+def normalize_tool_defs(tools: list) -> list:
+    """Normalize OpenAI tool definitions to the compact {name, description, parameters} shape."""
+    tool_defs = []
+    for tool in tools or []:
+        fn = tool.get("function", tool) if tool.get("type") == "function" else tool
+        tool_defs.append({
+            "name": fn.get("name", tool.get("name", "")),
+            "description": fn.get("description", tool.get("description", "")),
+            "parameters": fn.get("parameters", tool.get("parameters", {})),
+        })
+    return tool_defs
 
-    Deliberately non-coercive: Gemini refuses instructions that read like an
-    injection attempt (e.g. "You MUST call a tool"), which made required tool
-    calls flaky. The constraint is enforced client-side in the server handler
-    (retry when a required tool call was not produced).
+
+def _build_tool_choice_instruction(tool_choice, tool_defs: list) -> str:
+    """Build a tool_choice guidance line.
 
     tool_choice values:
       - "none": do not call any tool
       - "auto": decide whether to call tools (default)
-      - "required": should call at least one tool
-      - {"type": "function", "function": {"name": "xxx"}}: should call specific tool
+      - "required": MUST call at least one tool (hard-enforced by the server
+        with escalating retries - see tool_force_escalation)
+      - {"type": "function", "function": {"name": "xxx"}}: MUST call the
+        specific tool (also hard-enforced)
     """
     if tool_choice == "none":
         return "\n\nNote: do NOT call any tools in this conversation - answer with text only."
     if tool_choice == "required":
-        return "\n\nNote: please call one of the available tools for this request."
+        return ("\n\nNote: you must call one of the available tools for this request - "
+                "output the tool_call block, do not answer with plain text.")
     if isinstance(tool_choice, dict):
         fn_name = tool_choice.get("function", {}).get("name", "")
         if fn_name:
-            return f'\n\nNote: use the "{fn_name}" tool for this request.'
+            return (f'\n\nNote: you must call the "{fn_name}" tool for this request - '
+                    "output the tool_call block, do not answer with plain text.")
     return ""
+
+
+def tool_force_escalation(tool_choice, tool_defs: list, attempt: int) -> str:
+    """Escalating instruction used to force a required tool call.
+
+    When ``tool_choice`` is "required" (or names a specific function) and the
+    model answers with plain text, the server re-runs generation with these
+    progressively tighter instructions until a tool_call block is produced.
+    """
+    if not tool_defs:
+        return "\n\nNow output the tool_call block for the requested tool - no plain text."
+    fn_name = tool_choice.get("function", {}).get("name") if isinstance(tool_choice, dict) else None
+    if not fn_name:
+        fn_name = tool_defs[0]["name"]
+    steps = [
+        "\n\nNow output only the tool_call block for the required tool - no other text.",
+        (f'\n\nOutput ONLY a single tool_call block for the "{fn_name}" tool. '
+         "No text outside the block."),
+        (f'\n\nOutput ONLY this exact tool_call block (fill in arguments):\n'
+         f'```tool_call\n{{"name": "{fn_name}", "arguments": {{...}}}}\n```\n'
+         "No other text."),
+    ]
+    return steps[min(attempt, len(steps) - 1)]
 
 
 def messages_to_prompt(messages: list, tools: list = None, tool_choice=None) -> tuple:
@@ -66,14 +101,7 @@ def messages_to_prompt(messages: list, tools: list = None, tool_choice=None) -> 
     images = []
 
     if tools and tool_choice != "none":
-        tool_defs = []
-        for tool in tools:
-            fn = tool.get("function", tool) if tool.get("type") == "function" else tool
-            tool_defs.append({
-                "name": fn.get("name", tool.get("name", "")),
-                "description": fn.get("description", tool.get("description", "")),
-                "parameters": fn.get("parameters", tool.get("parameters", {})),
-            })
+        tool_defs = normalize_tool_defs(tools)
         if tool_defs:
             constraint = _build_tool_choice_instruction(tool_choice, tool_defs)
             parts.append(
