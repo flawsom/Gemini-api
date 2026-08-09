@@ -75,7 +75,7 @@ TOOL_TEXT = ("```tool_call\n"
              '{"name": "calculator", "arguments": {"expression": "8*125"}}\n'
              "```\nThe answer is 1000.")
 
-STREAM_SCENARIO = ["ok"]  # "ok" | "fail" | "disconnect"
+STREAM_SCENARIO = ["ok"]  # "ok" | "fail" | "disconnect" | "abort10053"
 
 
 def _fake_generate(prompt, model_id, think_mode, file_refs=None, extra_fields=None):
@@ -97,6 +97,12 @@ def _fake_generate_stream(prompt, model_id, think_mode, file_refs=None, extra_fi
         yield "world"
         time.sleep(0.15)
         yield "again"
+    if sc == "abort10053":
+        # Windows client abort (WinError 10053) - NOT a subclass of
+        # BrokenPipeError/ConnectionResetError; must be swallowed the same way.
+        yield "Hello "
+        raise ConnectionAbortedError(10053, "An established connection was aborted "
+                                             "by the software in your host machine")
     yield "Hello "
     yield "world"
 
@@ -312,6 +318,29 @@ try:
     check("disconnect -> server survives (next request 200)", s == 200, f"status={s}")
     bad_logs = [ln for ln in LOGS if "Traceback" in ln or "POST error" in ln]
     check("disconnect -> no traceback / POST error logged", not bad_logs, bad_logs[:3])
+
+    # ── 3b. ConnectionAbortedError mid-stream (WinError 10053) ─────────────
+    # Agentic clients (AionUI etc.) abort with ConnectionAbortedError, which
+    # is neither BrokenPipeError nor ConnectionResetError. Regression: it used
+    # to escape the outer catch, log "POST error" + traceback and try to send
+    # a 500 to a dead socket (seen in server.log as a phantom 500).
+    STREAM_SCENARIO[0] = "abort10053"
+    LOGS.clear()
+    body = json.dumps({"model": "gemini-3.6-flash", "stream": True,
+                       "messages": [{"role": "user", "content": "hi"}]}).encode()
+    try:
+        req("POST", "/v1/chat/completions", body, headers=H)
+    except Exception:
+        pass  # the client side of an aborted stream may raise - expected
+    deadline = time.time() + 2.0
+    while (time.time() < deadline
+           and not any("Traceback" in ln or "POST error" in ln for ln in LOGS)):
+        time.sleep(0.05)
+    s, b, hdr = req("GET", "/v1/models", headers=H)
+    check("abort10053 -> swallowed, server survives (next request 200)", s == 200,
+          f"status={s}")
+    bad_logs = [ln for ln in LOGS if "Traceback" in ln or "POST error" in ln]
+    check("abort10053 -> no traceback / POST error logged", not bad_logs, bad_logs[:3])
 
     print(f"\nRESULT: {PASS} passed, {FAIL} failed")
 finally:

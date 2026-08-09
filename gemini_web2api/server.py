@@ -647,13 +647,20 @@ class GeminiHandler(BaseHTTPRequestHandler):
                         self.wfile.write(f"data: {json.dumps(chunk, ensure_ascii=False)}\n\n".encode())
                         self.wfile.flush()
                 except Exception as e:
+                    # Client hung up (incl. Windows ConnectionAbortedError 10053):
+                    # let the outer handler swallow it silently - no error frame.
+                    if isinstance(e, (BrokenPipeError, ConnectionResetError, ConnectionAbortedError)):
+                        raise
                     # Upstream failed mid-stream: emit a valid SSE error frame
                     # instead of letting a raw JSON 500 body leak into the
                     # already-started event stream.
-                    err = {"error": {"message": f"upstream error: {e}"}}
-                    self.wfile.write(f"data: {json.dumps(err, ensure_ascii=False)}\n\n".encode())
-                    self.wfile.write(b"data: [DONE]\n\n")
-                    self.wfile.flush()
+                    try:
+                        err = {"error": {"message": f"upstream error: {e}"}}
+                        self.wfile.write(f"data: {json.dumps(err, ensure_ascii=False)}\n\n".encode())
+                        self.wfile.write(b"data: [DONE]\n\n")
+                        self.wfile.flush()
+                    except (BrokenPipeError, ConnectionResetError, ConnectionAbortedError):
+                        pass
                     return
                 end = {"id": cid, "object": "chat.completion.chunk", "created": int(time.time()),
                        "model": model_name, "choices": [{"index": 0, "delta": {}, "finish_reason": "stop"}]}
@@ -666,7 +673,7 @@ class GeminiHandler(BaseHTTPRequestHandler):
                     self.wfile.write(f"data: {json.dumps(usage_chunk)}\n\n".encode())
                 self.wfile.write(b"data: [DONE]\n\n")
                 self.wfile.flush()
-            except (BrokenPipeError, ConnectionResetError):
+            except (BrokenPipeError, ConnectionResetError, ConnectionAbortedError):
                 pass
             return
 
@@ -904,13 +911,18 @@ class GeminiHandler(BaseHTTPRequestHandler):
                         self.wfile.write(f"data: {json.dumps(chunk_obj, ensure_ascii=False)}\n\n".encode())
                         self.wfile.flush()
                 except Exception as e:
+                    if isinstance(e, (BrokenPipeError, ConnectionResetError, ConnectionAbortedError)):
+                        raise
                     # Valid SSE error frame for the native protocol - never a
                     # raw JSON body inside the event stream.
                     err_chunk = {"candidates": [{"finishReason": "ERROR", "index": 0}],
                                  "error": {"message": f"upstream error: {e}"},
                                  "modelVersion": model_name}
-                    self.wfile.write(f"data: {json.dumps(err_chunk, ensure_ascii=False)}\n\n".encode())
-                    self.wfile.flush()
+                    try:
+                        self.wfile.write(f"data: {json.dumps(err_chunk, ensure_ascii=False)}\n\n".encode())
+                        self.wfile.flush()
+                    except (BrokenPipeError, ConnectionResetError, ConnectionAbortedError):
+                        pass
                     return
                 final_chunk = {
                     "candidates": [{"finishReason": "STOP", "index": 0}],
@@ -923,7 +935,7 @@ class GeminiHandler(BaseHTTPRequestHandler):
                 }
                 self.wfile.write(f"data: {json.dumps(final_chunk, ensure_ascii=False)}\n\n".encode())
                 self.wfile.flush()
-            except (BrokenPipeError, ConnectionResetError):
+            except (BrokenPipeError, ConnectionResetError, ConnectionAbortedError):
                 pass
             return
 

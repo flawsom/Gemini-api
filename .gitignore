@@ -23,3 +23,48 @@ image-bridge-state-*.json
 
 # Private launch kit - not part of the public repo
 PRODUCT_HUNT.md
+# Launch scaffolding: motion renders, gallery stills, PH automation probes
+_ph_*
+_ph_assets/
+_arcade_*
+_arcade_assets/
+_preview_*.html
+_anim_*
+_motion_*
+_preview/
+_gif_*
+_gallery_check.*
+_demo_samples.*
+_yt_*
+_tmp_*
+_tmp_t.png
+_tmp_slot.png
+_kill_tmp_brave.ps1
+_cap/
+_readme_tmp/
+_verify_*
+_bundle_probe.py
+_capture_img.py
+_build_gif_test.py
+_ctrl_anim.gif
+_make_reel.py
+_mprev/
+_recompress_demo.py
+_reel_frames/
+_s1.png
+_s2.png
+
+# Launch render scaffolding under docs/
+docs/ph-*.gif
+docs/_ph_gallery/
+docs/make_motion.py
+docs/export_stills.py
+docs/assemble_gallery.py
+docs/launch-reel.mp4
+
+# Local AI agent data - never commit or attribute
+.*buff/
+
+# Browser-automation scratch scripts (PH/launch/posting probes)
+_inv_*
+_post_*
