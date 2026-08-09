@@ -624,13 +624,35 @@ _AGENT_DIAG_LINE_RE = re.compile(
     r')$'
 )
 
+# The same bounded patterns may also be echoed inline, glued to surrounding
+# text on one line ("...using=80613 DONE"); strip the diagnostic text itself
+# wherever it occurs. Trailing spaces are consumed so no double space remains.
+_AGENT_DIAG_INLINE_RE = re.compile(
+    r'(?:'
+    r'Token watermark override: provider=\d+, local_estimate=\d+, using=\d+'
+    r'|Microcompact: cleared \d+ tool results \(~\d+ tokens freed\)'
+    r'|Autocompact threshold: \d+ tokens \(\d+% of \d+\)'
+    r'|Autocompact: summarized \d+ messages \(\d+ tokens . compact\)'
+    r')[ \t]*'
+)
+
 
 def strip_agent_diagnostics(text: str) -> str:
-    """Remove whole agent-engine diagnostic lines from ``text``."""
+    """Remove agent-engine diagnostics from ``text``.
+
+    Whole diagnostic lines are dropped entirely; the bounded diagnostic
+    patterns (token watermark, microcompact, autocompact status) are also
+    removed when they appear inline with other text on the same line.
+    """
     lines = text.splitlines(keepends=True)
-    return "".join(
-        ln for ln in lines if not _AGENT_DIAG_LINE_RE.match(ln.rstrip("\r\n"))
-    )
+    kept = []
+    for ln in lines:
+        body = ln.rstrip("\r\n")
+        eol = ln[len(body):]
+        if _AGENT_DIAG_LINE_RE.match(body):
+            continue
+        kept.append(_AGENT_DIAG_INLINE_RE.sub("", body) + eol)
+    return "".join(kept)
 
 
 class _DiagnosticLineFilter:

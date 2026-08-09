@@ -1290,13 +1290,17 @@ function cleanGeminiText(text, strip) {
 // whole lines so they never reach any client conversation.
 var AGENT_DIAG_LINE_RE = /^(?:Token watermark override: provider=\d+, local_estimate=\d+, using=\d+|Microcompact: cleared \d+ tool results \(~\d+ tokens freed\)|Autocompact threshold: \d+ tokens \(\d+% of \d+\)|Autocompact: summarized \d+ messages \(\d+ tokens . compact\)|Autocompact: skipped \(.*\)|Autocompact: disabled \(.*\)|Cache full miss: .*)$/;
 
+// Same bounded patterns may also be echoed inline, glued to surrounding text
+// on one line; strip the diagnostic text itself wherever it occurs.
+var AGENT_DIAG_INLINE_RE = /(?:Token watermark override: provider=\d+, local_estimate=\d+, using=\d+|Microcompact: cleared \d+ tool results \(~\d+ tokens freed\)|Autocompact threshold: \d+ tokens \(\d+% of \d+\)|Autocompact: summarized \d+ messages \(\d+ tokens . compact\))[ \t]*/g;
+
 function stripAgentDiagnostics(text) {
   var lines = text.split('\n');
   var kept = [];
   for (var i = 0; i < lines.length; i++) {
-    if (!AGENT_DIAG_LINE_RE.test(lines[i].replace(/\r$/, ''))) {
-      kept.push(lines[i]);
-    }
+    var body = lines[i].replace(/\r$/, '');
+    if (AGENT_DIAG_LINE_RE.test(body)) continue;
+    kept.push(body.replace(AGENT_DIAG_INLINE_RE, ''));
   }
   return kept.join('\n');
 }
