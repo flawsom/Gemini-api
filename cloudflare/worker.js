@@ -1282,6 +1282,44 @@ function cleanGeminiText(text, strip) {
   return strip ? text.trim() : text;
 }
 
+// Agent-engine diagnostic filter: agent engines (e.g. AionUI's aioncore)
+// surface internal diagnostics ("Token watermark override: ...",
+// "Microcompact: ...", "Autocompact: ...") as visible text in the model
+// stream. Once such a line lands in a conversation, clients echo it back
+// and the model keeps reproducing it, ending its turn early. Strip these
+// whole lines so they never reach any client conversation.
+var AGENT_DIAG_LINE_RE = /^(?:Token watermark override: provider=\d+, local_estimate=\d+, using=\d+|Microcompact: cleared \d+ tool results \(~\d+ tokens freed\)|Autocompact threshold: \d+ tokens \(\d+% of \d+\)|Autocompact: summarized \d+ messages \(\d+ tokens . compact\)|Autocompact: skipped \(.*\)|Autocompact: disabled \(.*\)|Cache full miss: .*)$/;
+
+function stripAgentDiagnostics(text) {
+  var lines = text.split('\n');
+  var kept = [];
+  for (var i = 0; i < lines.length; i++) {
+    if (!AGENT_DIAG_LINE_RE.test(lines[i].replace(/\r$/, ''))) {
+      kept.push(lines[i]);
+    }
+  }
+  return kept.join('\n');
+}
+
+function makeDiagnosticLineFilter() {
+  var buf = '';
+  return {
+    feed: function (chunk) {
+      buf += chunk;
+      var idx = buf.lastIndexOf('\n');
+      if (idx < 0) return '';
+      var complete = buf.slice(0, idx + 1);
+      buf = buf.slice(idx + 1);
+      return stripAgentDiagnostics(complete);
+    },
+    flush: function () {
+      var out = stripAgentDiagnostics(buf);
+      buf = '';
+      return out;
+    }
+  };
+}
+
 /**
  * Extracts the final text from a raw Gemini API response
  * 
@@ -1383,7 +1421,7 @@ function extractResponseText(raw) {
   }
 
   // Step 8: clean code traces and return
-  return cleanGeminiText(text);
+  return stripAgentDiagnostics(cleanGeminiText(text));
 }
 
 // ============================================================================
@@ -2137,6 +2175,7 @@ async function handleChatCompletions(request, body, config) {
             var decoder = new TextDecoder();
             var buffer = '';      // line buffer (for partial lines)
             var prevText = '';    // tracks the text already sent
+            var diagFilter = makeDiagnosticLineFilter();
 
             while (true) {
               var readResult = await reader.read();
@@ -2188,6 +2227,7 @@ async function handleChatCompletions(request, body, config) {
                             var delta = t.slice(prevText.length);
                             // Clean code traces (no trim; keep whitespace)
                             var cleaned = cleanGeminiText(delta, false);
+                            cleaned = diagFilter.feed(cleaned);
                             if (cleaned) {
                               // Push the delta chunk immediately (typewriter)
                               controller.enqueue(streamEncoder.encode('data: ' + JSON.stringify({
@@ -2221,6 +2261,20 @@ async function handleChatCompletions(request, body, config) {
           }
 
           // ---- Step 5: end the stream normally ----
+          var diagTail = diagFilter.flush();
+          if (diagTail) {
+            controller.enqueue(streamEncoder.encode('data: ' + JSON.stringify({
+              id: chatId,
+              object: 'chat.completion.chunk',
+              created: timestamp(),
+              model: modelName,
+              choices: [{
+                index: 0,
+                delta: { content: diagTail },
+                finish_reason: null
+              }],
+            }) + '\n\n'));
+          }
           finishStream('stop');
 
         } catch (error) {

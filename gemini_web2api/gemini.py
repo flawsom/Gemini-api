@@ -604,6 +604,56 @@ def clean_text(text: str, strip: bool = True) -> str:
     return text.strip() if strip else text
 
 
+# ──────────────────────────── agent diagnostic filter ─────────────────────
+# Agent engines (e.g. AionUI's aioncore) surface internal diagnostics as
+# visible text in the model stream ("Token watermark override: ...",
+# "Microcompact: cleared ...", "Autocompact: ..."). Once one of these lines
+# lands in a conversation, clients echo it back and the model keeps
+# reproducing it - then ends its turn early. Strip the whole lines here so
+# they never reach any client conversation, in every IDE that talks to this
+# server.
+_AGENT_DIAG_LINE_RE = re.compile(
+    r'^(?:'
+    r'Token watermark override: provider=\d+, local_estimate=\d+, using=\d+'
+    r'|Microcompact: cleared \d+ tool results \(~\d+ tokens freed\)'
+    r'|Autocompact threshold: \d+ tokens \(\d+% of \d+\)'
+    r'|Autocompact: summarized \d+ messages \(\d+ tokens . compact\)'
+    r'|Autocompact: skipped \(.*\)'
+    r'|Autocompact: disabled \(.*\)'
+    r'|Cache full miss: .*'
+    r')$'
+)
+
+
+def strip_agent_diagnostics(text: str) -> str:
+    """Remove whole agent-engine diagnostic lines from ``text``."""
+    lines = text.splitlines(keepends=True)
+    return "".join(
+        ln for ln in lines if not _AGENT_DIAG_LINE_RE.match(ln.rstrip("\r\n"))
+    )
+
+
+class _DiagnosticLineFilter:
+    """Streaming line filter: buffers partial lines so a diagnostic split
+    across stream chunks is still removed as a whole line."""
+
+    def __init__(self):
+        self._buf = ""
+
+    def feed(self, chunk: str) -> str:
+        self._buf += chunk
+        idx = self._buf.rfind("\n")
+        if idx < 0:
+            return ""
+        complete, self._buf = self._buf[: idx + 1], self._buf[idx + 1:]
+        return strip_agent_diagnostics(complete)
+
+    def flush(self) -> str:
+        out = strip_agent_diagnostics(self._buf)
+        self._buf = ""
+        return out
+
+
 def _extract_texts_from_line(line: str) -> list:
     """Parse a single wrb.fr line and return list of text strings found."""
     if '"wrb.fr"' not in line or len(line) < 200:
@@ -688,7 +738,7 @@ def generate(prompt: str, model_id: int, think_mode: int, file_refs: list = None
                     "image uploads appear blocked for this account/session. "
                     "Try the same chat without an image."
                 )
-            return text
+            return strip_agent_diagnostics(text)
         except urllib.error.HTTPError as e:
             if e.code == 405:
                 _mark_405()
@@ -736,7 +786,7 @@ def generate_stream(prompt: str, model_id: int, think_mode: int, file_refs: list
     if not HAS_HTTPX:
         text = generate(prompt, model_id, think_mode, file_refs, extra_fields)
         if text:
-            yield text
+            yield strip_agent_diagnostics(text)
         return
 
     body = _build_payload(prompt, model_id, think_mode, file_refs, extra_fields)
@@ -749,6 +799,7 @@ def generate_stream(prompt: str, model_id: int, think_mode: int, file_refs: list
     last_429 = None
     saw_proxy_err = False
     emitted_raw_text = ""
+    diag_filter = _DiagnosticLineFilter()
     for attempt in range(attempts):
         proxy = _proxy_for_attempt(attempt)
         transport = httpx.HTTPTransport(proxy=proxy) if proxy else None
@@ -775,8 +826,13 @@ def generate_stream(prompt: str, model_id: int, think_mode: int, file_refs: list
                                 delta = clean_text(t[len(emitted_raw_text):], strip=False)
                                 emitted_raw_text = t
                                 if delta:
-                                    yield delta
+                                    out = diag_filter.feed(delta)
+                                    if out:
+                                        yield out
                 _mark_405_resolved()  # successful stream ends the 405 streak
+                tail = diag_filter.flush()
+                if tail:
+                    yield tail
                 if proxy:
                     _mark_proxy_working(proxy)
                 else:
@@ -794,7 +850,7 @@ def generate_stream(prompt: str, model_id: int, think_mode: int, file_refs: list
                         log("BL updated, falling back to non-streaming for this request")
                     text = generate(prompt, model_id, think_mode, file_refs, extra_fields)
                     if text:
-                        yield text
+                        yield strip_agent_diagnostics(text)
                     return
                 if status == 429:
                     last_429 = e
