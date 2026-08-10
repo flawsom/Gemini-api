@@ -164,6 +164,24 @@ curl -N http://localhost:8081/v1/chat/completions \
 > 🎬 The GIF above is a **real capture**, not a mockup: the server's actual boot banner (real timestamps, real build label), a streaming `curl -N` request, the real SSE token-by-token response (real request id, real inter-frame timing), and the completed answer — the status-bar stats are computed from that same session.
 > Regenerate it anytime with `python docs/make_demo.py` — it boots the server, fires a real request, and renders the GIF from the captured frames (an offline fallback reuses the last real capture). Drop your own screen recording into `docs/` to swap it.
 
+<div align="center">
+
+### 🌌 Ultra-hyperrealistic motion showcase
+
+*Dark glassmorphism · cinematic lighting · volumetric fog — generated motion graphics, no placeholders.*
+
+| 🧊 Brand hero | 🌐 Architecture flow | 🩹 Self-healing | 📊 Health dashboard |
+|---|---|---|---|
+| [![Brand hero motion — logo aura, gradient wordmark, status pills](docs/ph-hero.gif)](docs/ph-hero.gif) | [![Architecture flow motion — your AI app through Gemini Web2API to Gemini web](docs/ph-architecture.gif)](docs/ph-architecture.gif) | [![Self-healing motion — BL update, proxy fallback, cookie refresh](docs/ph-selfheal.gif)](docs/ph-selfheal.gif) | [![Live health dashboard motion — animated metrics](docs/ph-health.gif)](docs/ph-health.gif) |
+
+🎥 **Full launch reel (MP4, 2.4 MB)** — the 10-clip cinematic cut:
+
+[![Gemini Web2API launch reel — ultra-hyperrealistic motion graphics](docs/launch-reel.mp4)](docs/launch-reel.mp4)
+
+</div>
+
+> 🎞 Every motion clip is generated offline in pure PIL (`python docs/make_motion.py` · `python docs/make_selfheal_motion.py`) — dark glassmorphism, physically accurate glow, and animated metrics that stay perfectly in sync with the real product. The full prompt kit for Veo 3 / Gemini video lives in `docs/prompt-motion-video.md` (10 per-scene clips + style anchor + hook-first cut order).
+
 
 [⬆ Back to top](#readme-top)
 
