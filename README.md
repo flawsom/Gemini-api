@@ -36,7 +36,7 @@
 [![macOS](https://img.shields.io/badge/macOS-000000?style=flat-square&logo=apple&logoColor=white)](https://github.com/flawsom/Gemini-api)
 [![Docker](https://img.shields.io/badge/Docker-2496ED?style=flat-square&logo=docker&logoColor=white)](https://github.com/flawsom/Gemini-api/pkgs)
 [![Cloudflare Workers](https://img.shields.io/badge/Cloudflare_Workers-F38020?style=flat-square&logo=cloudflare&logoColor=white)](cloudflare/README.MD)
-[![Product Hunt](https://img.shields.io/badge/Product_Hunt-Launching_Soon-DA552F?style=flat-square&logo=producthunt&logoColor=white)](https://www.producthunt.com)
+[![Product Hunt](https://img.shields.io/badge/Product_Hunt-Live_on_PH-DA552F?style=flat-square&logo=producthunt&logoColor=white)](https://www.producthunt.com/posts/gemini-web2api-2)
 
 <!-- CTA BUTTONS -->
 <a href="https://github.com/flawsom/Gemini-api"><img src="https://img.shields.io/badge/🚀_Live_Demo-0ea5e9?style=for-the-badge&logo=googlechrome&logoColor=white" alt="Live Demo"></a>
@@ -917,7 +917,7 @@ test(extension): cover popup mismatch state
 - [x] Watchdog nudges (extensions page) on stale extension builds
 - [x] Docker multi-arch build & GHCR publishing
 - [x] Cloudflare Workers edition
-- [x] Windows `manage.bat` + watchdog + autostart
+- [x] Product Hunt launch 🦄 — [live now](https://www.producthunt.com/posts/gemini-web2api-2)
 
 ### 🚧 In progress
 
@@ -931,7 +931,6 @@ test(extension): cover popup mismatch state
 - [ ] macOS & Linux one-shot installers (`brew`, `curl | sh`)
 - [ ] Systemd + Docker health-check integration
 - [ ] Official website with hosted docs
-- [ ] Product Hunt launch 🦄
 
 [⬆ Back to top](#readme-top)
 
