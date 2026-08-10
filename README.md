@@ -44,7 +44,9 @@
 <a href="#quick-start"><img src="https://img.shields.io/badge/⚡_Installation-10b981?style=for-the-badge&logo=installer&logoColor=white" alt="Installation"></a>
 <a href="https://github.com/flawsom/Gemini-api"><img src="https://img.shields.io/badge/☆_Star_on_GitHub-f59e0b?style=for-the-badge&logo=github&logoColor=white" alt="GitHub Repository"></a>
 
-[🤖 AionUI / Agentic Platforms](AIONUI.md)
+[![AionUI](https://img.shields.io/badge/AionUI_ready-6D28D9?style=flat-square&logo=googlegemini&logoColor=white)](AIONUI.md)
+[![AionCore](https://img.shields.io/badge/AionCore_0.1.62-22c55e?style=flat-square&logo=rust&logoColor=white)](https://github.com/flawsom/AionCore)
+[![aionrs](https://img.shields.io/badge/aionrs_0.2.10-10b981?style=flat-square&logo=rust&logoColor=white)](https://github.com/flawsom/aionrs)
 
 <!-- STAT STRIP -->
 <img src="docs/stats.svg" width="760" alt="Gemini Web2API by the numbers — 8 models, 15 endpoints, 515 tests, 5 deploy targets">
@@ -58,7 +60,8 @@
 | | | |
 |---|---|---|
 | [✨ Features](#features) | [📸 Screenshots](#screenshots) | [🎥 Demo](#demo) |
-| [🏗 Architecture](#architecture) | [🛠 Tech Stack](#tech-stack) | [⚡ Quick Start](#quick-start) |
+| [🏗 Architecture](#architecture) | [🌐 Ecosystem](#ecosystem) | [🛠 Tech Stack](#tech-stack) |
+| [⚡ Quick Start](#quick-start) | | |
 | [📁 Project Structure](#project-structure) | [🔐 Configuration](#configuration) | [📖 API Reference](#api-reference) |
 | [🎯 Usage Examples](#usage-examples) | [📊 Performance](#performance) | [🧪 Testing](#testing) |
 | [🚀 Deployment](#deployment) | [🤝 Contributing](#contributing) | [🗺 Roadmap](#roadmap) |
@@ -353,6 +356,62 @@ flowchart TD
     CR -- "no" --> END(["Done"])
     EX --> TRY
 ```
+
+[⬆ Back to top](#readme-top)
+
+<img src="docs/section-divider.svg" width="760" alt="section divider">
+
+# 🌐 Ecosystem — built for agentic platforms
+
+> Gemini Web2API is the **free model layer** of the Aion stack: point any agent at `http://127.0.0.1:8081/v1` and it gets Gemini's full power — streaming, tool calling and images — with **zero API keys**. Here's exactly where it fits:
+
+```mermaid
+%%{init: {"theme": "base", "themeVariables": {"primaryColor": "#141a2e", "primaryTextColor": "#e2e8f0", "primaryBorderColor": "#6366f1", "lineColor": "#818cf8", "secondaryColor": "#0d1526", "tertiaryColor": "#101a30", "fontSize": "13px", "fontFamily": "ui-sans-serif, system-ui, sans-serif"}}}%%
+flowchart LR
+    subgraph UI["🖥 AionUi — desktop agent client"]
+        U1["Electron UI · team sessions · harness"]:::app
+    end
+
+    subgraph CORE["⚙️ AionCore — Rust backend platform"]
+        C1["24 crates · Axum · SQLite · WebSocket"]:::core
+        C2["Agent orchestration · MCP · teams · cron"]:::core
+    end
+
+    subgraph RS["🧩 aionrs — agent engine"]
+        R1["aion-agent · aion-tools · aion-mcp · aion-providers"]:::rs
+        R2["harness_mode · browser_navigate · tool_choice"]:::rs
+    end
+
+    subgraph API["🚀 Gemini Web2API — this repo"]
+        A1["OpenAI-compatible /v1 · SSE · tools · images"]:::api
+    end
+
+    subgraph GEM["☁️ gemini.google.com"]
+        G1["Gemini 3.6 Flash · Pro · Thinking"]:::gem
+    end
+
+    UI --> CORE
+    CORE --> RS
+    RS -->|"OpenAI protocol"| API
+    API --> GEM
+
+    classDef app fill:#1e293b,stroke:#64748b,color:#e2e8f0
+    classDef core fill:#1e1b4b,stroke:#6366f1,color:#e0e7ff
+    classDef rs fill:#052e16,stroke:#10b981,color:#a7f3d0
+    classDef api fill:#2e1065,stroke:#a78bfa,color:#ede9fe
+    classDef gem fill:#1c1917,stroke:#f59e0b,color:#fef3c7
+```
+
+<div align="center">
+
+| ⚙️ **AionCore** — the Rust backend platform | 🧩 **aionrs** — the agent engine |
+|---|---|
+| The high-performance backend server that powers **AionUi**: Axum + Tokio + SQLite, JWT + CSRF security, real-time WebSocket events, multi-agent orchestration, MCP, team collaboration and office/file intelligence across **24 modular crates** in a strict four-layer architecture. | The engine workspace behind AionCore's harness: `aion-agent`, `aion-tools`, `aion-mcp`, `aion-providers`, `aion-skills` and more — with task-shaped `harness_mode` that forces real tool calls (like `browser_navigate`) so agent runs behave like true tool-driven harnesses. |
+| [![AionCore](https://img.shields.io/badge/AionCore_0.1.62-6D28D9?style=flat-square&logo=rust&logoColor=white)](https://github.com/flawsom/AionCore) [![Apache 2.0](https://img.shields.io/badge/License-Apache_2.0-22c55e?style=flat-square&logo=apache&logoColor=white)](https://github.com/flawsom/AionCore) | [![aionrs](https://img.shields.io/badge/aionrs_0.2.10-10b981?style=flat-square&logo=rust&logoColor=white)](https://github.com/flawsom/aionrs) [![Apache 2.0](https://img.shields.io/badge/License-Apache_2.0-22c55e?style=flat-square&logo=apache&logoColor=white)](https://github.com/flawsom/aionrs) |
+
+</div>
+
+> 🔗 **The full agentic stack:** [AionUi desktop](AIONUI.md) → [AionCore](https://github.com/flawsom/AionCore) (Rust backend) → [aionrs](https://github.com/flawsom/aionrs) (agent engine) → **Gemini Web2API** (free OpenAI-compatible model bridge — this repo) → Gemini web. Every layer is open source — only the model runs on Google's free consumer tier, and this repo is the piece that makes the whole stack work without a single API key.
 
 [⬆ Back to top](#readme-top)
 
@@ -977,7 +1036,7 @@ Technically yes (`host: 0.0.0.0`), but set `api_keys` and a distinct `cookie_ref
 <details>
 <summary><b>What clients work out of the box?</b></summary>
 
-Cherry Studio, ChatBox, NextChat, **AionUI** ([setup guide](AIONUI.md)), anything using the OpenAI SDK, Codex CLI (`/v1/responses`), and the official Gemini CLI (`/v1beta`).
+Cherry Studio, ChatBox, NextChat, **AionUI** ([setup guide](AIONUI.md)) and the whole **Aion stack** — [AionCore](https://github.com/flawsom/AionCore) and its [aionrs](https://github.com/flawsom/aionrs) engine — plus anything using the OpenAI SDK, Codex CLI (`/v1/responses`), and the official Gemini CLI (`/v1beta`).
 </details>
 
 [⬆ Back to top](#readme-top)
@@ -990,6 +1049,7 @@ Cherry Studio, ChatBox, NextChat, **AionUI** ([setup guide](AIONUI.md)), anythin
 - **[OpenAI](https://openai.com)** — for the API contract everyone loves.
 - **[python-httpx](https://www.python-httpx.org)** — elegant streaming HTTP.
 - **[Shields.io](https://shields.io)** & **[Simple Icons](https://simpleicons.org)** — the badge ecosystem.
+- **[AionCore](https://github.com/flawsom/AionCore) & [aionrs](https://github.com/flawsom/aionrs)** — the open-source agent platform this bridge powers.
 - **The NextChat / Cherry Studio / ChatBox communities** — constant real-world usage feedback.
 - **You** — for reading this far. ⭐
 
