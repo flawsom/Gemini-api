@@ -34,7 +34,7 @@
 [![Windows](https://img.shields.io/badge/Windows-0078D6?style=flat-square&logo=windows&logoColor=white)](https://github.com/flawsom/Gemini-api)
 [![Linux](https://img.shields.io/badge/Linux-FCC624?style=flat-square&logo=linux&logoColor=black)](https://github.com/flawsom/Gemini-api)
 [![macOS](https://img.shields.io/badge/macOS-000000?style=flat-square&logo=apple&logoColor=white)](https://github.com/flawsom/Gemini-api)
-[![Docker](https://img.shields.io/badge/Docker-2496ED?style=flat-square&logo=docker&logoColor=white)](https://github.com/flawsom/Gemini-api/pkgs)
+[![Docker](https://img.shields.io/badge/Docker-2496ED?style=flat-square&logo=docker&logoColor=white)](https://github.com/flawsom/Gemini-api/pkgs/container/gemini-api)
 [![Cloudflare Workers](https://img.shields.io/badge/Cloudflare_Workers-F38020?style=flat-square&logo=cloudflare&logoColor=white)](cloudflare/README.MD)
 [![Product Hunt](https://img.shields.io/badge/Product_Hunt-Live_on_PH-DA552F?style=flat-square&logo=producthunt&logoColor=white)](https://www.producthunt.com/posts/gemini-web2api-2)
 
@@ -453,7 +453,7 @@ flowchart LR
 
 [![Docker](https://img.shields.io/badge/Docker-2496ED?style=flat-square&logo=docker&logoColor=white)](Dockerfile)
 [![docker-compose](https://img.shields.io/badge/docker--compose-2962FF?style=flat-square&logo=docker&logoColor=white)](docker-compose.local.yml)
-[![GHCR](https://img.shields.io/badge/GHCR_multi--arch-f9f9f9?style=flat-square&logo=github&logoColor=black)](https://github.com/flawsom/Gemini-api/pkgs)
+[![GHCR](https://img.shields.io/badge/GHCR_multi--arch-f9f9f9?style=flat-square&logo=github&logoColor=black)](https://github.com/flawsom/Gemini-api/pkgs/container/gemini-api)
 [![GitHub Actions](https://img.shields.io/badge/GitHub_Actions-2088FF?style=flat-square&logo=githubactions&logoColor=white)](.github/workflows/docker.yml)
 [![Cloudflare Workers](https://img.shields.io/badge/Cloudflare_Workers-F38020?style=flat-square&logo=cloudflare&logoColor=white)](cloudflare/README.MD)
 
@@ -535,7 +535,7 @@ docker compose -f docker-compose.local.yml up -d --build
 docker run -d --name gemini-web2api \
   -p 8081:8081 \
   -v "$(pwd)/config.json:/app/config.json" \
-  ghcr.io/flawsom/Gemini-api:latest
+  ghcr.io/flawsom/gemini-api:latest
 ```
 
 The container copies `config.example.json` → `/app/config.json` automatically, so it boots out of the box.
@@ -869,7 +869,7 @@ node --check gemini-cookie-sync-extension/popup.js
 
 ```bash
 docker compose -f docker-compose.local.yml up -d --build
-# or pull prebuilt: ghcr.io/flawsom/Gemini-api:latest (amd64 + arm64)
+# or pull prebuilt: ghcr.io/flawsom/gemini-api:latest (amd64 + arm64)
 ```
 
 ### ☁️ Cloudflare Workers (zero server)
