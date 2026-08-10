@@ -2566,7 +2566,6 @@ class GeminiHandler(BaseHTTPRequestHandler):
             except RuntimeError as e:
                 self.send_json({"error": {"message": f"tool call required but not produced: {e}"}}, 502)
                 return
-
         msg = {"role": "assistant", "content": text or None}
         if tool_calls:
             msg["tool_calls"] = tool_calls

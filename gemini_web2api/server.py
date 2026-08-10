@@ -321,6 +321,11 @@ def _force_tool_call(prompt, model_id, think_mode, images, extra_fields, model_n
     functionCallingConfig mode=ANY) never silently degrades into plain text.
     """
     last_text = ""
+    # A dict tool_choice names the exact tool that must be called. When pinned,
+    # tool calls for any other function are rejected and escalation continues.
+    required_fn = None
+    if isinstance(tool_choice, dict):
+        required_fn = (tool_choice.get("function") or {}).get("name")
     for attempt in range(3):
         retry_prompt = prompt + tool_force_escalation(tool_choice, tool_defs, attempt)
         try:
@@ -334,6 +339,14 @@ def _force_tool_call(prompt, model_id, think_mode, images, extra_fields, model_n
             last_text = text
             cleaned, calls = parse(text)
             if calls:
+                if required_fn:
+                    matched = [c for c in calls
+                               if (c.get("function") or {}).get("name") == required_fn]
+                    if matched:
+                        return cleaned, matched
+                    # Wrong tool (e.g. ExecCommand instead of browser_navigate):
+                    # keep escalating so the specific tool is eventually emitted.
+                    continue
                 return cleaned, calls
     raise RuntimeError(
         "model refused to produce the required tool call "
@@ -726,9 +739,15 @@ class GeminiHandler(BaseHTTPRequestHandler):
         if tools and text and tool_choice != "none":
             text, tool_calls = parse_tool_calls(text)
         # tool_choice requires a tool: hard-enforce it with escalating retries;
-        # never silently degrade a required tool call into plain text.
+        # never silently degrade a required tool call into plain text. A dict
+        # tool_choice pins one exact function: even if the model emitted a tool
+        # call for some OTHER function, we still escalate until the pinned one
+        # appears (the pin must never degrade into a wrong-tool call).
         requires_tool = tool_choice == "required" or isinstance(tool_choice, dict)
-        if tools and requires_tool and not tool_calls:
+        pinned_fn = (tool_choice.get("function") or {}).get("name") if isinstance(tool_choice, dict) else None
+        missing_pin = bool(pinned_fn) and not any(
+            (c.get("function") or {}).get("name") == pinned_fn for c in (tool_calls or []))
+        if tools and requires_tool and (not tool_calls or missing_pin):
             try:
                 text, tool_calls = _force_tool_call(
                     prompt, model_id, think_mode, images, extra_fields,
@@ -837,9 +856,15 @@ class GeminiHandler(BaseHTTPRequestHandler):
         if tools and text and tool_choice != "none":
             text, tool_calls = parse_tool_calls(text)
         # tool_choice requires a tool: hard-enforce it with escalating retries;
-        # never silently degrade a required tool call into plain text.
+        # never silently degrade a required tool call into plain text. A dict
+        # tool_choice pins one exact function: even if the model emitted a tool
+        # call for some OTHER function, we still escalate until the pinned one
+        # appears (the pin must never degrade into a wrong-tool call).
         requires_tool = tool_choice == "required" or isinstance(tool_choice, dict)
-        if tools and requires_tool and not tool_calls:
+        pinned_fn = (tool_choice.get("function") or {}).get("name") if isinstance(tool_choice, dict) else None
+        missing_pin = bool(pinned_fn) and not any(
+            (c.get("function") or {}).get("name") == pinned_fn for c in (tool_calls or []))
+        if tools and requires_tool and (not tool_calls or missing_pin):
             try:
                 text, tool_calls = _force_tool_call(
                     prompt, model_id, think_mode, images, extra_fields,
