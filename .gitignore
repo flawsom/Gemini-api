@@ -54,13 +54,10 @@ _reel_frames/
 _s1.png
 _s2.png
 
-# Launch render scaffolding under docs/
-docs/ph-*.gif
+# Launch render scaffolding under docs/ (motion clips + reel are public README assets)
 docs/_ph_gallery/
-docs/make_motion.py
 docs/export_stills.py
 docs/assemble_gallery.py
-docs/launch-reel.mp4
 
 # Local AI agent data - never commit or attribute
 .*buff/
@@ -74,5 +71,3 @@ _karma_*
 _rd_*
 docs/engineering-writeup.md
 docs/launch-distribution.md
-docs/make_selfheal_motion.py
-docs/prompt-motion-video.md
