@@ -69,6 +69,43 @@ from `/v1/models`. If the key is wrong you get `401 invalid api key`.
 
 The full list (with descriptions) is served at `GET /v1/models`.
 
+### One-command setup (fresh installs & repairs)
+
+Manual entry is explained above, but the bridge ships a script that does it for
+you — it finds AionUi's backend DB and re-creates the provider when missing
+(**idempotent**: no-op when a provider already points at the local bridge):
+
+```bash
+python ensure_gemini_provider.py     # run while the bridge is up
+```
+
+It provisions all 8 models plus the `sk-gemini` key (encrypted with AionUi's
+own AES-256-GCM scheme). Run it after any AionUi reinstall or DB reset that
+drops the provider row, then restart AionUi.
+
+### Using AionUi's Google login as the bridge session
+
+The bridge needs a gemini.google.com session — and you're probably already
+signed into Google **inside AionUi**. One command harvests that session and
+pushes it to the bridge. Source order: AionUi's in-app browser over CDP → the
+app's `Network\Cookies` profile DB → your default browser as fallback, so the
+bridge always has a session source:
+
+```bash
+python aionui_cookie_sync.py          # auto source detection + push
+python aionui_cookie_sync.py --check  # report session state, change nothing
+python aionui_cookie_sync.py --source db   # force one source
+```
+
+### Agent harness (tool-calling loop)
+
+The bridge forces the **first turn** of a task to open with a real tool call
+(`tool_choice: required` on fresh, tool-registering, task-shaped requests) and
+parses tool calls in both native (`function_call` + `args`) and OpenAI
+(`tool_call` + `arguments`) formats — so the agent **loops** with
+Read / ExecCommand / Write tool calls and approval cards instead of answering
+once and stopping. Casual chat requests are never affected.
+
 ---
 
 ## 3 · Input compatibility matrix

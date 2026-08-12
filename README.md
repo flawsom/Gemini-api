@@ -525,7 +525,23 @@ manage.bat uninstall  & rem  remove auto-start + stop
 
 Or simply double-click **`start_server.bat`** after any reboot — it launches the server with your config and closes itself.
 
-### 🐳 Docker
+### 🤖 AionUi — one-command setup
+
+Running the bridge from **AionUi** (the desktop agent client) is two commands — no clicking through provider settings:
+
+```bash
+# 1. Start the bridge
+python gemini_web2api.py
+
+# 2. Create (or repair) the "Gemini Web2API (Google session)" provider in AionUi
+python ensure_gemini_provider.py
+```
+
+`ensure_gemini_provider.py` locates AionUi's backend DB, detects whether a provider already points at the local bridge (`127.0.0.1:8081`), and re-creates it if missing — with **all 8 models** and the `sk-gemini` key encrypted using AionUi's own AES-256-GCM scheme. It is **idempotent**: when the provider already exists it does nothing, so re-run it after any AionUi reinstall or DB reset that drops the provider row.
+
+Restart AionUi, pick **Gemini Web2API (Google session) → `gemini-3.6-flash`**, and send a task — the agent runs as a real tool-driven harness (**Read / ExecCommand / Write** loops), not a single answer and stop.
+
+> 🔑 **No separate Gemini login needed.** `python aionui_cookie_sync.py` harvests the Google account you're already signed into inside AionUi's in-app browser (live CDP → app profile DB → default browser as fallback) and pushes it to the bridge — the session that powers Pro models, streaming and tool calling lives entirely in the app. Full details in [AIONUI.md](AIONUI.md).
 
 ```bash
 # Build & run locally
@@ -750,6 +766,8 @@ resp = client.chat.completions.create(
 )
 print(resp.choices[0].message.tool_calls)  # proper OpenAI tool_calls
 ```
+
+> 🤖 **Agent harness.** When the bridge sees a fresh request that registers tools with a task-shaped first message, it forces the first turn with `tool_choice: required` so the agent **opens with a tool call** instead of a single text answer — and its tool-call parser accepts both ` ```function_call `` + `args` and ` ```tool_call `` + `arguments` formats, so real arguments like `file_path` always survive the round-trip (no more empty `{}` calls). Casual chat requests are never affected.
 
 ### 🖼 Multimodal
 
